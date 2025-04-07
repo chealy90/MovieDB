@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('release_year')->nullable();
             $table->json('genre_ids')->nullable();
             $table->string('poster_path');
+            $table->float('rating')->nullable();
             $table->timestamps();
 
             $table->index('tmdb_id');

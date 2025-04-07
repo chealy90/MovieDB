@@ -69,6 +69,7 @@ class FetchPopularMovies extends Command
                                     : null,
                                 'poster_path' => $localPosterPath,
                                 'genre_ids' => $movie['genre_ids'] ?? [],
+                                'rating' => $movie['vote_average'] ?? null, // ✅ Add this
                             ]
                         );
 

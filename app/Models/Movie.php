@@ -14,9 +14,11 @@ class Movie extends Model {
         'release_year',
         'poster_path',
         'genre_ids',
+        'rating',
     ];
 
     protected $casts = [
         'genre_ids' => 'array',
+        'rating' => 'float',
     ];
 }

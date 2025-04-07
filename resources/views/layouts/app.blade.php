@@ -84,7 +84,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
+    <main class="py-8 bg-gradient-to-b from-gray-900 to-gray-800 min-h-screen">
         @yield('content')
     </main>
 
