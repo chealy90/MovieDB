@@ -1,146 +1,154 @@
-<div class="container mx-auto px-4 py-4">
+<div class="container mx-auto px-6 py-4">
     <div class="flex justify-between items-center">
         <!-- Logo -->
         <div class="flex items-center">
-            <a href="{{ url('/') }}" class="text-2xl font-bold text-white no-underline flex items-center">
-                <i class="fas fa-film text-movie-accent mr-2"></i>
-                <span>MovieDB</span>
+            <a href="{{ url('/') }}" class="text-3xl font-bold no-underline flex items-center">
+                <i class="fas fa-film text-movie-accent mr-3"></i>
+                <span class="text-white">MovieDB</span>
             </a>
         </div>
 
         <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center space-x-8">
-            <a href="{{ route('movies.index') }}" class="text-white hover:text-movie-accent transition-colors duration-200">
-                <i class="fas fa-fire mr-1"></i> Popular
+        <nav class="hidden lg:flex items-center space-x-10">
+            <a href="{{ route('movies.index') }}" class="text-white nav-link font-medium text-lg">
+                <i class="fas fa-fire mr-2 text-movie-accent"></i> Popular
             </a>
-            <a href="#" class="text-white hover:text-movie-accent transition-colors duration-200">
-                <i class="fas fa-play-circle mr-1"></i> Now Playing
+            <a href="#" class="text-white nav-link font-medium text-lg">
+                <i class="fas fa-play-circle mr-2 text-movie-accent"></i> Now Playing
             </a>
-            <a href="#" class="text-white hover:text-movie-accent transition-colors duration-200">
-                <i class="fas fa-star mr-1"></i> Top Rated
+            <a href="#" class="text-white nav-link font-medium text-lg">
+                <i class="fas fa-star mr-2 text-movie-accent"></i> Top Rated
             </a>
-            <a href="#" class="text-white hover:text-movie-accent transition-colors duration-200">
-                <i class="fas fa-calendar-alt mr-1"></i> Upcoming
+            <a href="#" class="text-white nav-link font-medium text-lg">
+                <i class="fas fa-calendar-alt mr-2 text-movie-accent"></i> Upcoming
             </a>
 
             <!-- Search Bar -->
-            <div class="relative ml-4">
+            <div class="relative ml-6">
                 <input type="text" placeholder="Search movies..."
-                       class="bg-movie-primary text-white px-4 py-2 rounded-full w-64 focus:outline-none focus:ring-2 focus:ring-movie-accent">
-                <button class="absolute right-3 top-2 text-gray-400 hover:text-movie-accent">
+                       class="search-box text-white px-5 py-2 rounded-full w-72 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300">
+                <button class="absolute right-4 top-2.5 text-gray-300 hover:text-movie-accent transition-colors duration-300">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
 
             <!-- User Menu -->
             @auth
-                <div class="relative ml-4">
-                    <button @click="userMenuOpen = !userMenuOpen" class="flex items-center space-x-2 focus:outline-none">
-                        <span class="text-white">{{ Auth::user()->name }}</span>
-                        <div class="w-8 h-8 rounded-full bg-movie-primary flex items-center justify-center text-white">
-                            <i class="fas fa-user"></i>
+                <div class="relative ml-6">
+                    <button @click="userMenuOpen = !userMenuOpen" class="flex items-center space-x-3 focus:outline-none">
+                        <span class="text-white font-medium">{{ Auth::user()->name }}</span>
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-white user-avatar">
+                            <i class="fas fa-user text-lg"></i>
                         </div>
                     </button>
 
                     <!-- Dropdown Menu -->
                     <div x-show="userMenuOpen" @click.away="userMenuOpen = false" x-cloak
-                         class="absolute right-0 mt-2 w-48 bg-movie-primary rounded-md shadow-lg py-1 z-50">
-                        <a href="#" class="block px-4 py-2 text-white hover:bg-gray-700">My Profile</a>
-                        <a href="#" class="block px-4 py-2 text-white hover:bg-gray-700">Watchlist</a>
-                        <a href="#" class="block px-4 py-2 text-white hover:bg-gray-700">Settings</a>
-                        <div class="border-t border-gray-700"></div>
-                        <a href="{{ route('logout') }}"
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                           class="block px-4 py-2 text-white hover:bg-gray-700">
-                            Logout
+                         class="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-2xl py-2 z-50 overflow-hidden">
+                        <a href="#" class="block px-5 py-3 text-gray-800 hover:bg-gray-100 transition-colors duration-300 flex items-center">
+                            <i class="fas fa-user mr-3 text-cyan-500"></i> My Profile
                         </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                        <a href="#" class="block px-5 py-3 text-gray-800 hover:bg-gray-100 transition-colors duration-300 flex items-center">
+                            <i class="fas fa-bookmark mr-3 text-purple-500"></i> Watchlist
+                        </a>
+                        <a href="#" class="block px-5 py-3 text-gray-800 hover:bg-gray-100 transition-colors duration-300 flex items-center">
+                            <i class="fas fa-cog mr-3 text-gray-500"></i> Settings
+                        </a>
+                        <div class="border-t border-gray-200 my-1"></div>
+                        <a href="#"
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                           class="block px-5 py-3 text-gray-800 hover:bg-gray-100 transition-colors duration-300 flex items-center">
+                            <i class="fas fa-sign-out-alt mr-3 text-red-500"></i> Logout
+                        </a>
+                        <form id="logout-form" action="#" method="POST" class="hidden">
                             @csrf
                         </form>
                     </div>
                 </div>
             @else
-                <div class="flex space-x-4 ml-4">
-                    {{--                            <a href="{{ route('login') }}" class="text-white hover:text-movie-accent transition-colors duration-200">--}}
-                    {{--                                Login--}}
-                    {{--                            </a>--}}
-                    {{--                            <a href="{{ route('register') }}" class="text-white hover:text-movie-accent transition-colors duration-200">--}}
-                    {{--                                Register--}}
-                    {{--                            </a>--}}
+                <div class="flex space-x-4 ml-6">
+                    <a href="#" class="px-5 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-medium hover:shadow-lg transition-all duration-300">
+                        Login
+                    </a>
+                    <a href="#" class="px-5 py-2 rounded-full border-2 border-cyan-400 text-white font-medium hover:bg-cyan-500 hover:bg-opacity-20 transition-all duration-300">
+                        Register
+                    </a>
                 </div>
             @endauth
         </nav>
 
         <!-- Mobile Menu Button -->
-        <div class="md:hidden flex items-center">
+        <div class="lg:hidden flex items-center">
             @auth
-                <div class="relative mr-4">
+                <div class="relative mr-5">
                     <button @click="userMenuOpen = !userMenuOpen" class="flex items-center focus:outline-none">
-                        <div class="w-8 h-8 rounded-full bg-movie-primary flex items-center justify-center text-white">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-white user-avatar">
                             <i class="fas fa-user"></i>
                         </div>
                     </button>
                 </div>
             @endauth
             <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none">
-                <i :class="{'fa-times': mobileMenuOpen, 'fa-bars': !mobileMenuOpen}" class="fas text-xl"></i>
+                <i :class="{'fa-times': mobileMenuOpen, 'fa-bars': !mobileMenuOpen}" class="fas text-2xl"></i>
             </button>
         </div>
     </div>
 </div>
 
 <!-- Mobile Menu -->
-<div x-show="mobileMenuOpen" x-cloak class="md:hidden bg-movie-primary px-4 py-2">
+<div x-show="mobileMenuOpen" x-cloak
+     class="lg:hidden bg-gradient-to-b from-gray-900 to-gray-800 px-6 py-4 transition-all duration-500 ease-in-out">
     <div class="container mx-auto">
-        <a href="{{ route('movies.index') }}" class="block py-2 text-white hover:text-movie-accent">
-            <i class="fas fa-fire mr-2"></i> Popular Movies
-        </a>
-        <a href="#" class="block py-2 text-white hover:text-movie-accent">
-            <i class="fas fa-play-circle mr-2"></i> Now Playing
-        </a>
-        <a href="#" class="block py-2 text-white hover:text-movie-accent">
-            <i class="fas fa-star mr-2"></i> Top Rated
-        </a>
-        <a href="#" class="block py-2 text-white hover:text-movie-accent">
-            <i class="fas fa-calendar-alt mr-2"></i> Upcoming
-        </a>
-
-        <div class="relative my-2">
+        <div class="relative mb-4">
             <input type="text" placeholder="Search movies..."
-                   class="bg-movie-dark text-white px-4 py-2 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-movie-accent">
-            <button class="absolute right-3 top-2 text-gray-400 hover:text-movie-accent">
+                   class="search-box text-white px-5 py-3 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <button class="absolute right-4 top-3.5 text-gray-300 hover:text-movie-accent">
                 <i class="fas fa-search"></i>
             </button>
         </div>
 
+        <a href="{{ route('movies.index') }}" class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">
+            <i class="fas fa-fire mr-3 text-movie-accent"></i> Popular Movies
+        </a>
+        <a href="#" class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">
+            <i class="fas fa-play-circle mr-3 text-movie-accent"></i> Now Playing
+        </a>
+        <a href="#" class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">
+            <i class="fas fa-star mr-3 text-movie-accent"></i> Top Rated
+        </a>
+        <a href="#" class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">
+            <i class="fas fa-calendar-alt mr-3 text-movie-accent"></i> Upcoming
+        </a>
+
         @guest
-            <div class="border-t border-gray-700 mt-2 pt-2">
-                {{--                        <a href="{{ route('login') }}" class="block py-2 text-white hover:text-movie-accent">--}}
-                {{--                            <i class="fas fa-sign-in-alt mr-2"></i> Login--}}
-                {{--                        </a>--}}
-                {{--                        <a href="{{ route('register') }}" class="block py-2 text-white hover:text-movie-accent">--}}
-                {{--                            <i class="fas fa-user-plus mr-2"></i> Register--}}
-                {{--                        </a>--}}
+            <div class="mt-4 pt-2">
+                <a href="#" class="block w-full text-center py-2.5 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-medium mb-3">
+                    Login
+                </a>
+                <a href="#" class="block w-full text-center py-2.5 rounded-full border-2 border-cyan-400 text-white font-medium">
+                    Register
+                </a>
             </div>
         @endguest
     </div>
 </div>
 
 <!-- Mobile User Menu -->
-<div x-show="userMenuOpen && mobileMenuOpen" x-cloak class="md:hidden bg-movie-primary px-4 py-2">
-    <a href="#" class="block py-2 text-white hover:text-movie-accent">
-        <i class="fas fa-user mr-2"></i> My Profile
+<div x-show="userMenuOpen && mobileMenuOpen" x-cloak
+     class="lg:hidden bg-gray-800 px-6 py-3 transition-all duration-500 ease-in-out">
+    <a href="#" class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">
+        <i class="fas fa-user mr-3 text-cyan-400"></i> My Profile
     </a>
-    <a href="#" class="block py-2 text-white hover:text-movie-accent">
-        <i class="fas fa-bookmark mr-2"></i> Watchlist
+    <a href="#" class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">
+        <i class="fas fa-bookmark mr-3 text-purple-400"></i> Watchlist
     </a>
-    <a href="#" class="block py-2 text-white hover:text-movie-accent">
-        <i class="fas fa-cog mr-2"></i> Settings
+    <a href="#" class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">
+        <i class="fas fa-cog mr-3 text-gray-400"></i> Settings
     </a>
-    <div class="border-t border-gray-700"></div>
-    {{--            <a href="{{ route('logout') }}"--}}
-    {{--               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"--}}
-    {{--               class="block py-2 text-white hover:text-movie-accent">--}}
-    {{--                <i class="fas fa-sign-out-alt mr-2"></i> Logout--}}
-    {{--            </a>--}}
+    <div class="border-t border-gray-700 my-1"></div>
+    <a href="#"
+       onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+       class="block py-3 text-white hover:text-red-400 transition-colors duration-300 flex items-center">
+        <i class="fas fa-sign-out-alt mr-3 text-red-400"></i> Logout
+    </a>
 </div>
