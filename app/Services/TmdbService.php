@@ -36,4 +36,27 @@ class TmdbService
 
         return $data['results'];
     }
+
+
+
+    public function getMovieDetails($movieId)
+    {
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+        ])->get("{$this->baseUrl}/movie/{$movieId}", [
+            'api_key' => env('TMDB_API_KEY'),
+            'append_to_response' => 'credits', // Include cast and crew
+            'language' => 'en-US'
+        ]);
+
+        if (!$response->successful()) {
+            Log::error('TMDB API Error', [
+                'status' => $response->status(),
+                'body' => $response->body()
+            ]);
+            throw new \Exception("API request failed with status: {$response->status()}");
+        }
+
+        return $response->json();
+    }
 }
