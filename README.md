@@ -75,5 +75,6 @@ composer install
 php artisan migrate
 php artisan serve
 npm run dev
+php artisan storage:link
 php artisan tmdb:fetch-popular 50
 ```
