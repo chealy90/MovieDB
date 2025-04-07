@@ -45,7 +45,7 @@ class TmdbService
             'Accept' => 'application/json',
         ])->get("{$this->baseUrl}/movie/{$movieId}", [
             'api_key' => env('TMDB_API_KEY'),
-            'append_to_response' => 'credits', // Include cast and crew
+            'append_to_response' => 'credits,videos', // Add videos to the response
             'language' => 'en-US'
         ]);
 

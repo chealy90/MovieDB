@@ -164,25 +164,38 @@
                     Official Trailer
                 </h2>
                 <div class="aspect-w-16 aspect-h-9 bg-black rounded-lg overflow-hidden">
-                    @php
-                        $trailer = collect($movie['videos']['results'])->first(function ($video) {
-                            return $video['type'] === 'Trailer' && $video['site'] === 'YouTube';
-                        });
-                    @endphp
+                    @if(isset($movie['videos']['results']))
+                        @php
+                            // Find the first official trailer
+                            $trailer = collect($movie['videos']['results'])->firstWhere('type', 'Trailer');
 
-                    @if ($trailer)
-                        <iframe
-                            class="w-full h-96"
-                            src="https://www.youtube.com/embed/{{ $trailer['key'] }}"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen>
-                        </iframe>
+                            // If no official trailer, try to find any YouTube video
+                            if (!$trailer) {
+                                $trailer = collect($movie['videos']['results'])->firstWhere('site', 'YouTube');
+                            }
+                        @endphp
+
+                        @if ($trailer)
+                            <iframe
+                                class="w-full h-96"
+                                src="https://www.youtube.com/embed/{{ $trailer['key'] }}?autoplay=0&rel=0"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        @else
+                            <div class="w-full h-96 bg-gray-700 flex items-center justify-center text-gray-500">
+                                <div class="text-center">
+                                    <i class="fas fa-film text-5xl mb-3"></i>
+                                    <p>Trailer not available</p>
+                                </div>
+                            </div>
+                        @endif
                     @else
                         <div class="w-full h-96 bg-gray-700 flex items-center justify-center text-gray-500">
                             <div class="text-center">
                                 <i class="fas fa-film text-5xl mb-3"></i>
-                                <p>Trailer not available</p>
+                                <p>Trailer information not loaded</p>
                             </div>
                         </div>
                     @endif
