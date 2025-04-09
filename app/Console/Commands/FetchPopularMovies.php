@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Models\Movie;
 use App\Services\TmdbService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Storage;
 
 class FetchPopularMovies extends Command
 {
@@ -22,6 +21,7 @@ class FetchPopularMovies extends Command
         $tmdb = new TmdbService();
         $pages = (int)$this->argument('pages');
         $totalSaved = 0;
+        $skipped = 0;
 
         $this->info("Fetching {$pages} pages of popular movies...");
 
@@ -32,57 +32,50 @@ class FetchPopularMovies extends Command
                 $movies = $tmdb->getPopularMovies($page);
 
                 foreach ($movies as $movie) {
+                    // Check for required fields
+                    if (!$this->validateMovie($movie)) {
+                        $skipped++;
+                        continue;
+                    }
+
                     try {
-                        $posterPath = $movie['poster_path'] ?? null;
-                        $localPosterPath = null;
+                        $movieData = [
+                            'title' => $movie['title'],
+                            'tmdb_id' => $movie['id']
+                        ];
 
-                        if ($posterPath) {
-                            $imageUrl = 'https://image.tmdb.org/t/p/w500' . $posterPath;
+                        // Add optional fields only if they exist and are valid
+                        if (!empty($movie['release_date'])) {
+                            $movieData['release_year'] = (int)substr($movie['release_date'], 0, 4);
+                        }
 
-                            // Hash the filename for uniqueness
-                            $extension = pathinfo($posterPath, PATHINFO_EXTENSION) ?: 'jpg';
-                            $hashedFilename = md5($posterPath) . '.' . $extension;
-                            $storagePath = 'public/posters/' . $hashedFilename;
-                            $publicPath = 'storage/posters/' . $hashedFilename;
+                        if (!empty($movie['poster_path'])) {
+                            $movieData['poster_path'] = $movie['poster_path'];
+                        }
 
-                            // Skip download if file already exists
-                            if (!Storage::exists($storagePath)) {
-                                $imageContents = @file_get_contents($imageUrl);
+                        if (!empty($movie['genre_ids']) && is_array($movie['genre_ids'])) {
+                            $movieData['genre_ids'] = $movie['genre_ids'];
+                        }
 
-                                if ($imageContents) {
-                                    Storage::disk('public')->put('posters/' . $hashedFilename, $imageContents);
-                                    $this->line("Downloaded poster: {$hashedFilename}");
-                                } else {
-                                    $this->warn("Could not download poster for movie ID {$movie['id']}");
-                                }
-                            }
-
-                            $localPosterPath = $publicPath;
+                        if (isset($movie['vote_average']) && is_numeric($movie['vote_average'])) {
+                            $movieData['rating'] = $movie['vote_average'];
                         }
 
                         Movie::updateOrCreate(
                             ['tmdb_id' => $movie['id']],
-                            [
-                                'title' => $movie['title'],
-                                'release_year' => !empty($movie['release_date'])
-                                    ? (int)substr($movie['release_date'], 0, 4)
-                                    : null,
-                                'poster_path' => $localPosterPath,
-                                'genre_ids' => $movie['genre_ids'] ?? [],
-                                'rating' => $movie['vote_average'] ?? null, // ✅ Add this
-                            ]
+                            $movieData
                         );
-
                         $totalSaved++;
                     } catch (\Exception $e) {
                         $this->warn("Skipped movie {$movie['id']}: " . $e->getMessage());
+                        $skipped++;
                         continue;
                     }
                 }
 
                 $bar->advance();
 
-                // Rate limiting (4 requests per second max)
+                // Rate limiting
                 if ($page % 4 === 0) sleep(1);
             } catch (\Exception $e) {
                 $this->error("Page {$page} failed: " . $e->getMessage());
@@ -91,6 +84,28 @@ class FetchPopularMovies extends Command
         }
 
         $bar->finish();
-        $this->info("\nDone! Successfully processed {$totalSaved} movies.");
+        $this->newLine();
+        $this->info("Done! Successfully saved {$totalSaved} movies.");
+        $this->info("Skipped {$skipped} movies due to missing or invalid data.");
+    }
+
+    protected function validateMovie($movie): bool
+    {
+        // Required fields must exist and not be empty
+        if (empty($movie['id']) || empty($movie['title'])) {
+            return false;
+        }
+
+        // ID must be numeric
+        if (!is_numeric($movie['id'])) {
+            return false;
+        }
+
+        // Title must be a string
+        if (!is_string($movie['title'])) {
+            return false;
+        }
+
+        return true;
     }
 }

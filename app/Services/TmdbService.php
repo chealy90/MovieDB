@@ -8,53 +8,51 @@ use Illuminate\Support\Facades\Log;
 class TmdbService
 {
     protected $baseUrl = 'https://api.themoviedb.org/3';
+    protected $apiKey;
+
+    public function __construct()
+    {
+        $this->apiKey = env('TMDB_API_KEY');
+        if (empty($this->apiKey)) {
+            throw new \RuntimeException('TMDB_API_KEY is not set in .env');
+        }
+    }
 
     public function getPopularMovies($page = 1)
     {
-        $response = Http::withHeaders([
-            'Accept' => 'application/json',
-        ])->get("{$this->baseUrl}/movie/popular", [
-            'api_key' => env('TMDB_API_KEY'),
-            'page' => $page,
-            'language' => 'en-US'
-        ]);
-
-        if (!$response->successful()) {
-            Log::error('TMDB API Error', [
-                'status' => $response->status(),
-                'body' => $response->body()
-            ]);
-            throw new \Exception("API request failed with status: {$response->status()}");
-        }
-
-        $data = $response->json();
-
-        if (!isset($data['results'])) {
-            Log::error('TMDB Unexpected Response', ['response' => $data]);
-            throw new \Exception("Unexpected API response format");
-        }
-
-        return $data['results'];
+        return $this->makeRequest("/movie/popular", ['page' => $page])['results'] ?? [];
     }
 
-
-
-    public function getMovieDetails($movieId)
+    public function getMovieDetails($id)
     {
+        return $this->makeRequest("/movie/{$id}", [
+            'append_to_response' => 'credits,videos,similar'
+        ]);
+    }
+
+    public function getSimilarMovies($id)
+    {
+        $movies = $this->makeRequest("/movie/{$id}/similar")['results'] ?? [];
+        return array_slice($movies, 0, 10);
+    }
+
+    protected function makeRequest($endpoint, $params = [])
+    {
+        $defaultParams = [
+            'api_key' => $this->apiKey,
+            'language' => 'en-US'
+        ];
+
         $response = Http::withHeaders([
             'Accept' => 'application/json',
-        ])->get("{$this->baseUrl}/movie/{$movieId}", [
-            'api_key' => env('TMDB_API_KEY'),
-            'append_to_response' => 'credits,videos', // Add videos to the response
-            'language' => 'en-US'
-        ]);
+        ])->get($this->baseUrl . $endpoint, array_merge($defaultParams, $params));
 
         if (!$response->successful()) {
             Log::error('TMDB API Error', [
                 'status' => $response->status(),
                 'body' => $response->body()
             ]);
-            throw new \Exception("API request failed with status: {$response->status()}");
+            throw new \Exception("TMDB API request failed: {$response->status()}");
         }
 
         return $response->json();
