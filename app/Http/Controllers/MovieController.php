@@ -29,6 +29,7 @@ class MovieController extends Controller
         if (!$movie) {
             // Fetch the movie details from TMDB API
             $movieDetails = $this->tmdbService->getMovieDetails($id);
+            
 
             // Save the movie to the database
             $movie = Movie::create([

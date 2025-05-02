@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 
-class RegisteredUserController extends Controller
+class RegistrationController extends Controller
 {
     public function create()
     {
-        return view('auth.register');
+        return view('loginAndRegister.register');
     }
 
 public function store(Request $request)
@@ -36,6 +36,6 @@ public function store(Request $request)
     event(new Registered($user));
     Auth::login($user);
 
-    return redirect('/dashboard');
+    return redirect('/');
 }
 }
