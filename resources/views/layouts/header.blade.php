@@ -60,17 +60,17 @@
                            class="block px-5 py-3 text-gray-800 hover:bg-gray-100 transition-colors duration-300 flex items-center">
                             <i class="fas fa-sign-out-alt mr-3 text-red-500"></i> Logout
                         </a>
-                        <form id="logout-form" action="#" method="POST" class="hidden">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
                             @csrf
                         </form>
                     </div>
                 </div>
             @else
                 <div class="flex space-x-4 ml-6">
-                    <a href="#" class="px-5 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-medium hover:shadow-lg transition-all duration-300">
+                    <a href="{{ route('login.index') }}" class="px-5 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-medium hover:shadow-lg transition-all duration-300">
                         Login
                     </a>
-                    <a href="#" class="px-5 py-2 rounded-full border-2 border-cyan-400 text-white font-medium hover:bg-cyan-500 hover:bg-opacity-20 transition-all duration-300">
+                    <a href="{{ route('register.index') }}" class="px-5 py-2 rounded-full border-2 border-cyan-400 text-white font-medium hover:bg-cyan-500 hover:bg-opacity-20 transition-all duration-300">
                         Register
                     </a>
                 </div>
