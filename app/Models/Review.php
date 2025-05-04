@@ -13,6 +13,7 @@ class Review extends Model
         'userID',
         'rating',
         'description',
-        'datePosted'
+        'datePosted',
+        'username'
     ];
 }

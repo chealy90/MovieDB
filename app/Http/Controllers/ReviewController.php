@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
@@ -19,6 +20,7 @@ class ReviewController extends Controller
             [
                 'movieID'=>$movie,
                 'userID'=>$user,
+                'username'=> User::where('id', $user)->first()->name,
                 'rating'=>$request->input('rating'),
                 'description'=>$request->input('description')
             ]
