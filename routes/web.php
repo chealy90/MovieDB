@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
 
@@ -25,3 +26,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/register', [RegistrationController::class, 'create'])->name('register.index');
 Route::post('/register', [RegistrationController::class, 'store'])->name('register.store');
+
+
+//review
+Route::post('/postReview/{movie}/{user}', [ReviewController::class, 'create'])->name('postReview');

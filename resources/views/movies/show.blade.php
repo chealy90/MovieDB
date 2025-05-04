@@ -2,6 +2,7 @@
 
 @section('title', $movie['title'])
 
+
 @section('content')
     <div>
         <div class="container mx-auto px-4">
@@ -159,6 +160,7 @@
             </div>
 
             <!-- Trailer Section -->
+                
             <div class="bg-gray-800 rounded-2xl shadow-xl p-6 mb-8 border border-gray-700">
                 <h2 class="text-2xl font-bold text-white mb-6 relative pb-2 after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-10 after:h-0.5 after:bg-gradient-to-r after:from-cyan-500 after:to-blue-500">
                     Official Trailer
@@ -235,25 +237,31 @@
                 </h2>
 
                 <!-- Review Form -->
-                <div class="bg-gray-700 rounded-xl p-5 mb-8">
+                <div class="bg-gray-700 rounded-xl p-5 mb-8" x-data="{ rating:0 }">
                     <h3 class="text-lg font-semibold text-white mb-4">Write a Review</h3>
-                    <form>
+                    <form action="{{ auth()->check() ? route('postReview', ['movie' => $movie['id'], 'user' => auth()->user()->id]) : route('login') }}" method="POST">
+                        @csrf
                         <div class="mb-4">
                             <label class="block text-gray-300 mb-2">Your Rating</label>
                             <div class="flex space-x-1">
                                 @for($i = 1; $i <= 5; $i++)
-                                    <button type="button" class="text-2xl text-gray-400 hover:text-yellow-400 focus:outline-none">
+                                    <button type="button" 
+                                        class="text-2xl text-gray-400 hover:text-yellow-400 focus:outline-none"
+                                        :class="rating >= {{ $i }} ? 'text-yellow-400' : 'text-gray-400'"
+                                        @click="rating = {{ $i }}">
                                         ★
                                     </button>
                                 @endfor
                             </div>
                         </div>
+                        <input type="hidden" name="rating" :value="rating">
                         <div class="mb-4">
                         <textarea
+                            name="description"
                             class="w-full bg-gray-800 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-1 focus:ring-cyan-500"
                             rows="4"
                             placeholder="Share your thoughts about this movie..."></textarea>
-                        </div>
+                        </div>  
                         <button
                             type="submit"
                             class="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-full hover:opacity-90 transition-opacity">
