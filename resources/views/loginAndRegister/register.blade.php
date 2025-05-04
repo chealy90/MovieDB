@@ -6,7 +6,7 @@
 <div class="flex justify-center items-center min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
     <div class="bg-gray-800 p-8 rounded-lg shadow-xl w-full max-w-sm">
         <h2 class="text-3xl font-semibold text-center text-white mb-6">Create an Account</h2>
-        
+
         <form method="POST" action="{{ route('register.store') }}" class="space-y-4">
             @csrf
             <!-- Name -->
@@ -42,7 +42,7 @@
         </form>
 
         <div class="mt-6 text-center text-gray-400">
-            <p>Already have an account? <a href="login.index" class="text-movie-accent hover:underline">Login</a></p>
+            <p>Already have an account? <a href="{{ route('login.index') }}" class="text-movie-accent hover:underline">Login</a></p>
         </div>
     </div>
 </div>

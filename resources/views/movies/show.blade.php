@@ -159,7 +159,7 @@
             </div>
 
             <!-- Trailer Section -->
-                
+
             <div class="bg-gray-800 rounded-2xl shadow-xl p-6 mb-8 border border-gray-700">
                 <h2 class="text-2xl font-bold text-white mb-6 relative pb-2 after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-10 after:h-0.5 after:bg-gradient-to-r after:from-cyan-500 after:to-blue-500">
                     Official Trailer
@@ -244,7 +244,7 @@
                             <label class="block text-gray-300 mb-2">Your Rating</label>
                             <div class="flex space-x-1">
                                 @for($i = 1; $i <= 5; $i++)
-                                    <button type="button" 
+                                    <button type="button"
                                         class="text-2xl text-gray-400 hover:text-yellow-400 focus:outline-none"
                                         :class="rating >= {{ $i }} ? 'text-yellow-400' : 'text-gray-400'"
                                         @click="rating = {{ $i }}">
@@ -260,7 +260,7 @@
                             class="w-full bg-gray-800 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-1 focus:ring-cyan-500"
                             rows="4"
                             placeholder="Share your thoughts about this movie..."></textarea>
-                        </div>  
+                        </div>
                         <button
                             type="submit"
                             class="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-full hover:opacity-90 transition-opacity">
@@ -270,7 +270,7 @@
                 </div>
 
 
-                
+
                 <!-- Reviews List -->
                 <div class="space-y-6">
                     @if ($reviews->isEmpty())
@@ -297,7 +297,7 @@
                                             <span class="text-gray-400 text-sm">{{ $review['rating'] }}/5</span>
                                         </div>
                                     </div>
-                                    <p class="text-gray-400 text-sm mb-2">2 days ago</p>
+                                    <p class="text-gray-400 text-sm mb-2">{{ \Carbon\Carbon::parse($review['created_at'])->diffForHumans() }}</p>
                                     <p class="text-gray-300">{{ $review['description'] }}</p>
                                 </div>
                             </div>

@@ -25,11 +25,17 @@
 
             <!-- Search Bar -->
             <div class="relative ml-6">
-                <input type="text" placeholder="Search movies..."
-                       class="search-box text-white px-5 py-2 rounded-full w-72 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300">
-                <button class="absolute right-4 top-2.5 text-gray-300 hover:text-movie-accent transition-colors duration-300">
-                    <i class="fas fa-search"></i>
-                </button>
+                <form action="{{ route('movies.search') }}" method="GET" id="search-form-desktop">
+                    <input type="text"
+                           name="query"
+                           id="search-input-desktop"
+                           placeholder="Search movies..."
+                           class="search-box text-white px-5 py-2 rounded-full w-72 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
+                           required>
+                    <button type="submit" class="absolute right-4 top-2.5 text-gray-300 hover:text-movie-accent transition-colors duration-300">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
             </div>
 
             <!-- User Menu -->
@@ -99,12 +105,19 @@
 <div x-show="mobileMenuOpen" x-cloak
      class="lg:hidden bg-gradient-to-b from-gray-900 to-gray-800 px-6 py-4 transition-all duration-500 ease-in-out">
     <div class="container mx-auto">
+{{--        search--}}
         <div class="relative mb-4">
-            <input type="text" placeholder="Search movies..."
-                   class="search-box text-white px-5 py-3 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-purple-500">
-            <button class="absolute right-4 top-3.5 text-gray-300 hover:text-movie-accent">
-                <i class="fas fa-search"></i>
-            </button>
+            <form action="{{ route('movies.search') }}" method="GET" id="search-form-mobile">
+                <input type="text"
+                       name="query"
+                       id="search-input-mobile"
+                       placeholder="Search movies..."
+                       class="search-box text-white px-5 py-3 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-purple-500"
+                       required>
+                <button type="submit" class="absolute right-4 top-3.5 text-gray-300 hover:text-movie-accent">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
         </div>
 
         <a href="{{ route('movies.index') }}" class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">
