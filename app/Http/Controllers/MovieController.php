@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
+use App\Models\Review;
 use App\Services\TmdbService;
 use Illuminate\Http\Request;
 
@@ -47,9 +48,12 @@ class MovieController extends Controller
         // Get similar movies
         $similarMovies = $this->tmdbService->getSimilarMovies($id);
 
+        $reviews = Review::where('movieID', $id)->get();
+
         return view('movies.show', [
             'movie' => $movieDetails,
-            'similarMovies' => $similarMovies
+            'similarMovies' => $similarMovies,
+            'reviews' => $reviews
         ]);
     }
 }

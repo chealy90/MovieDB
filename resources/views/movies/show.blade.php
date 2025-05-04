@@ -159,6 +159,7 @@
             </div>
 
             <!-- Trailer Section -->
+                
             <div class="bg-gray-800 rounded-2xl shadow-xl p-6 mb-8 border border-gray-700">
                 <h2 class="text-2xl font-bold text-white mb-6 relative pb-2 after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-10 after:h-0.5 after:bg-gradient-to-r after:from-cyan-500 after:to-blue-500">
                     Official Trailer
@@ -235,25 +236,31 @@
                 </h2>
 
                 <!-- Review Form -->
-                <div class="bg-gray-700 rounded-xl p-5 mb-8">
+                <div class="bg-gray-700 rounded-xl p-5 mb-8" x-data="{ rating:0 }">
                     <h3 class="text-lg font-semibold text-white mb-4">Write a Review</h3>
-                    <form>
+                    <form action="{{ auth()->check() ? route('postReview', ['movie' => $movie['id'], 'user' => auth()->user()->id]) : route('login.index') }}" method="POST">
+                        @csrf
                         <div class="mb-4">
                             <label class="block text-gray-300 mb-2">Your Rating</label>
                             <div class="flex space-x-1">
                                 @for($i = 1; $i <= 5; $i++)
-                                    <button type="button" class="text-2xl text-gray-400 hover:text-yellow-400 focus:outline-none">
+                                    <button type="button" 
+                                        class="text-2xl text-gray-400 hover:text-yellow-400 focus:outline-none"
+                                        :class="rating >= {{ $i }} ? 'text-yellow-400' : 'text-gray-400'"
+                                        @click="rating = {{ $i }}">
                                         ★
                                     </button>
                                 @endfor
                             </div>
                         </div>
+                        <input type="hidden" name="rating" :value="rating">
                         <div class="mb-4">
                         <textarea
+                            name="description"
                             class="w-full bg-gray-800 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-1 focus:ring-cyan-500"
                             rows="4"
                             placeholder="Share your thoughts about this movie..."></textarea>
-                        </div>
+                        </div>  
                         <button
                             type="submit"
                             class="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-full hover:opacity-90 transition-opacity">
@@ -262,55 +269,51 @@
                     </form>
                 </div>
 
+
+                
                 <!-- Reviews List -->
                 <div class="space-y-6">
-                    <!-- Sample Review 1 -->
-                    <div class="bg-gray-700 rounded-xl p-5">
-                        <div class="flex items-start space-x-4">
-                            <div class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center text-gray-300">
-                                <i class="fas fa-user text-xl"></i>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start">
-                                    <h3 class="text-white font-medium">MovieFan123</h3>
-                                    <div class="flex items-center">
-                                        <span class="text-yellow-400 mr-1">★★★★★</span>
-                                        <span class="text-gray-400 text-sm">5/5</span>
-                                    </div>
+                    @if ($reviews->isEmpty())
+                    <div class="bg-gray-700 text-gray-300 p-6 rounded-xl text-center">
+                        <h3 class="text-xl font-semibold mb-2">No Reviews Yet</h3>
+                        <p>Be the first to share your thoughts about this movie. We'd love to hear what you think!</p>
+                    </div>
+                    @else
+                        @foreach($reviews as $review)
+                        <div class="bg-gray-700 rounded-xl p-5">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center text-gray-300">
+                                    <i class="fas fa-user text-xl"></i>
                                 </div>
-                                <p class="text-gray-400 text-sm mb-2">2 days ago</p>
-                                <p class="text-gray-300">This movie blew me away! The cinematography was stunning and the performances were outstanding. One of the best films I've seen this year.</p>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-start">
+                                        <h3 class="text-white font-medium">{{ $review['username'] }}</h3>
+                                        <div class="flex items-center">
+                                            <span class="text-yellow-400 mr-1">
+                                                @for ($i=0;$i<$review['rating'];$i++)
+                                                ★
+                                                @endfor
+                                            </span>
+                                            <span class="text-gray-400 text-sm">{{ $review['rating'] }}/5</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-400 text-sm mb-2">2 days ago</p>
+                                    <p class="text-gray-300">{{ $review['description'] }}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Sample Review 2 -->
-                    <div class="bg-gray-700 rounded-xl p-5">
-                        <div class="flex items-start space-x-4">
-                            <div class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center text-gray-300">
-                                <i class="fas fa-user text-xl"></i>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start">
-                                    <h3 class="text-white font-medium">CinemaLover</h3>
-                                    <div class="flex items-center">
-                                        <span class="text-yellow-400 mr-1">★★★☆☆</span>
-                                        <span class="text-gray-400 text-sm">3/5</span>
-                                    </div>
-                                </div>
-                                <p class="text-gray-400 text-sm mb-2">1 week ago</p>
-                                <p class="text-gray-300">Good performances but the plot felt predictable. Worth watching but not as groundbreaking as the reviews suggested.</p>
-                            </div>
-                        </div>
-                    </div>
+                        @endforeach
+                    @endif
                 </div>
 
                 <!-- View All Reviews Button -->
+                @if ($reviews->count() > 4)
                 <div class="mt-6 text-center">
                     <button class="px-6 py-2 border border-cyan-500 text-cyan-400 rounded-full hover:bg-cyan-500/10 transition-colors">
                         View All Reviews
                     </button>
                 </div>
+                @endif
             </div>
 
             <!-- Similar Movies Section -->
