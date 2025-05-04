@@ -9,14 +9,52 @@
             <p class="text-gray-400">{{ $total_results }} {{ Str::plural('movie', $total_results) }} found</p>
 
             @if($total_results > 0)
-                <div class="mt-4 flex items-center">
-                    <span class="text-gray-400 mr-2">Sort by:</span>
-                    <div class="flex space-x-2">
-                        <button class="px-3 py-1 bg-gray-700 text-white rounded-full text-sm">Relevance</button>
-                        <button class="px-3 py-1 bg-gray-700 text-white rounded-full text-sm">Rating</button>
-                        <button class="px-3 py-1 bg-gray-700 text-white rounded-full text-sm">Release Date</button>
-                    </div>
-                </div>
+                <!-- Filters -->
+                <form action="{{ route('movies.search') }}" method="GET" class="mt-4 flex flex-wrap gap-4 items-center">
+                    <input type="hidden" name="query" value="{{ $query }}">
+
+                    <!-- Genre Filter -->
+                    <select name="genre" class="appearance-none bg-movie-primary text-white px-4 py-2 pr-8 rounded-full focus:outline-none focus:ring-1 focus:ring-cyan-500 text-sm">
+                        <option value="">All Genres</option>
+                        <option value="28" {{ request('genre') == '28' ? 'selected' : '' }}>Action</option>
+                        <option value="12" {{ request('genre') == '12' ? 'selected' : '' }}>Adventure</option>
+                        <option value="16" {{ request('genre') == '16' ? 'selected' : '' }}>Animation</option>
+                        <option value="35" {{ request('genre') == '35' ? 'selected' : '' }}>Comedy</option>
+                        <option value="80" {{ request('genre') == '80' ? 'selected' : '' }}>Crime</option>
+                        <option value="99" {{ request('genre') == '99' ? 'selected' : '' }}>Documentary</option>
+                        <option value="18" {{ request('genre') == '18' ? 'selected' : '' }}>Drama</option>
+                        <option value="10751" {{ request('genre') == '10751' ? 'selected' : '' }}>Family</option>
+                        <option value="14" {{ request('genre') == '14' ? 'selected' : '' }}>Fantasy</option>
+                        <option value="36" {{ request('genre') == '36' ? 'selected' : '' }}>History</option>
+                        <option value="27" {{ request('genre') == '27' ? 'selected' : '' }}>Horror</option>
+                        <option value="10402" {{ request('genre') == '10402' ? 'selected' : '' }}>Music</option>
+                        <option value="9648" {{ request('genre') == '9648' ? 'selected' : '' }}>Mystery</option>
+                        <option value="10749" {{ request('genre') == '10749' ? 'selected' : '' }}>Romance</option>
+                        <option value="878" {{ request('genre') == '878' ? 'selected' : '' }}>Science Fiction</option>
+                        <option value="10770" {{ request('genre') == '10770' ? 'selected' : '' }}>TV Movie</option>
+                        <option value="53" {{ request('genre') == '53' ? 'selected' : '' }}>Thriller</option>
+                        <option value="10752" {{ request('genre') == '10752' ? 'selected' : '' }}>War</option>
+                        <option value="37" {{ request('genre') == '37' ? 'selected' : '' }}>Western</option>
+                    </select>
+
+                    <!-- Release Year Filter -->
+                    <select name="year" class="appearance-none bg-movie-primary text-white px-4 py-2 pr-8 rounded-full focus:outline-none focus:ring-1 focus:ring-cyan-500 text-sm">
+                        <option value="">All Years</option>
+                        @for ($i = date('Y'); $i >= 2000; $i--)
+                            <option value="{{ $i }}" {{ request('year') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                        @endfor
+                    </select>
+
+                    <!-- Sorting Options -->
+                    <select name="sort" class="appearance-none bg-movie-primary text-white px-4 py-2 pr-8 rounded-full focus:outline-none focus:ring-1 focus:ring-cyan-500 text-sm">
+                        <option value="rating" {{ request('sort') == 'rating' ? 'selected' : '' }}>Sort by Rating</option>
+                        <option value="release_date" {{ request('sort') == 'release_date' ? 'selected' : '' }}>Sort by Release Date</option>
+                    </select>
+
+                    <button type="submit" class="px-4 py-2 rounded-full bg-cyan-500 text-white hover:bg-cyan-600 transition-all">
+                        Apply Filters
+                    </button>
+                </form>
             @endif
         </div>
 

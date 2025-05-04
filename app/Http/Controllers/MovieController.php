@@ -16,9 +16,40 @@ class MovieController extends Controller
         $this->tmdbService = $tmdbService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $movies = Movie::orderBy('created_at', 'desc')->paginate(24);
+        $query = Movie::query();
+
+        // Apply genre filter
+        if ($request->filled('genre')) {
+            $genreId = $request->input('genre');
+            $query->whereRaw('JSON_CONTAINS(genre_ids, ?)', [json_encode((int) $genreId)]);
+        }
+
+        // Apply release year filter
+        if ($request->filled('year')) {
+            $query->where('release_year', $request->input('year'));
+        }
+
+        // Apply sorting
+        if ($request->filled('sort')) {
+            switch ($request->input('sort')) {
+                case 'popularity':
+                    $query->orderBy('popularity', 'desc');
+                    break;
+                case 'rating':
+                    $query->orderBy('rating', 'desc');
+                    break;
+                case 'release_date':
+                    $query->orderBy('release_year', 'desc');
+                    break;
+            }
+        } else {
+            $query->orderBy('created_at', 'desc'); // Default sorting
+        }
+
+        $movies = $query->paginate(24);
+
         return view('movies.index', compact('movies'));
     }
 
@@ -65,24 +96,55 @@ class MovieController extends Controller
         }
 
         try {
-            $results = $tmdbService->searchMovies($query);
+            // Fetch search results from TMDB
+            $results = $tmdbService->searchMovies($query, $request->get('page', 1));
+
+            // Filter by genre
+            if ($request->filled('genre')) {
+                $genreId = $request->input('genre');
+                $results['results'] = array_filter($results['results'], function ($movie) use ($genreId) {
+                    return isset($movie['genre_ids']) && in_array((int) $genreId, $movie['genre_ids']);
+                });
+            }
+
+            // Filter by release year
+            if ($request->filled('year')) {
+                $year = $request->input('year');
+                $results['results'] = array_filter($results['results'], function ($movie) use ($year) {
+                    return isset($movie['release_date']) && substr($movie['release_date'], 0, 4) == $year;
+                });
+            }
+
+            // Sort results only if a sort parameter is provided
+            if ($request->filled('sort')) {
+                $sort = $request->input('sort');
+                usort($results['results'], function ($a, $b) use ($sort) {
+                    if ($sort === 'rating') {
+                        return $b['vote_average'] <=> $a['vote_average'];
+                    } elseif ($sort === 'release_date') {
+                        return strcmp($b['release_date'] ?? '', $a['release_date'] ?? '');
+                    }
+                    return 0;
+                });
+            }
+
             return view('movies.search', [
                 'movies' => $results['results'] ?? [],
                 'query' => $query,
                 'total_results' => $results['total_results'] ?? 0,
                 'total_pages' => $results['total_pages'] ?? 1,
-                'current_page' => $request->get('page', 1)
+                'current_page' => $request->get('page', 1),
             ]);
         } catch (\Exception $e) {
             Log::error('Movie search failed:', [
                 'query' => $query,
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
 
             return view('movies.search', [
                 'movies' => [],
                 'query' => $query,
-                'error' => 'An error occurred while searching. Please try again.'
+                'error' => 'An error occurred while searching. Please try again.',
             ]);
         }
     }
