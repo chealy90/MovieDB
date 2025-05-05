@@ -2,6 +2,7 @@
 
 @section('title', $movie['title'])
 
+
 @section('content')
     <div>
         <div class="container mx-auto px-4">
@@ -297,6 +298,7 @@
                                             <span class="text-gray-400 text-sm">{{ $review['rating'] }}/5</span>
                                         </div>
                                     </div>
+
                                     <p class="text-gray-400 text-sm mb-2">{{ \Carbon\Carbon::parse($review['created_at'])->diffForHumans() }}</p>
                                     <p class="text-gray-300">{{ $review['description'] }}</p>
                                 </div>
@@ -305,13 +307,15 @@
                         @endforeach
                     @endif
                 </div>
+                
 
                 <!-- View All Reviews Button -->
-                @if ($reviews->count() > 4)
+                @if ($reviews->count() > 3)
                 <div class="mt-6 text-center">
-                    <button class="px-6 py-2 border border-cyan-500 text-cyan-400 rounded-full hover:bg-cyan-500/10 transition-colors">
+                    <a href="{{ url('/movieReviews/' . $movie['id']) }}"
+                       class="px-6 py-2 border border-cyan-500 text-cyan-400 rounded-full hover:bg-cyan-500/10 transition-colors inline-block">
                         View All Reviews
-                    </button>
+                    </a>
                 </div>
                 @endif
             </div>

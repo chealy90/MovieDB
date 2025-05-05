@@ -72,7 +72,7 @@ class MovieController extends Controller
             );
 
             $similarMovies = $this->tmdbService->getSimilarMovies($id);
-            $reviews = Review::where('movieID', $id)->get();
+            $reviews = Review::where('movieID', $id)->orderBy('created_at', 'asc')->take(4)->get();
 
             return view('movies.show', [
                 'movie' => $movieDetails,
@@ -148,6 +148,7 @@ class MovieController extends Controller
             ]);
         }
     }
+
 
     protected function storeSearchResults(array $movies)
     {
