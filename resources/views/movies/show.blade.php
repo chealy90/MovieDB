@@ -6,7 +6,8 @@
     <div>
         <div class="container mx-auto px-4">
             <!-- Back Button -->
-            <a href="{{ route('movies.index') }}" class="inline-flex items-center text-movie-accent hover:text-white mb-6 transition-colors">
+            <a href="{{ route('movies.index') }}"
+               class="inline-flex items-center text-movie-accent hover:text-white mb-6 transition-colors">
                 <i class="fas fa-arrow-left mr-2"></i> Back to Popular Movies
             </a>
 
@@ -29,13 +30,16 @@
 
                         <!-- Action Buttons (Mobile) -->
                         <div class="md:hidden flex justify-center space-x-4 p-4 bg-gray-900/80">
-                            <button class="watchlist-btn-mobile flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white">
+                            <button
+                                class="watchlist-btn-mobile flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white">
                                 <i class="fas fa-plus"></i>
                             </button>
-                            <button class="watched-btn-mobile flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                            <button
+                                class="watched-btn-mobile flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white">
                                 <i class="fas fa-check"></i>
                             </button>
-                            <button class="like-btn-mobile flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-500 to-yellow-500 text-white">
+                            <button
+                                class="like-btn-mobile flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-500 to-yellow-500 text-white">
                                 <i class="fas fa-heart"></i>
                             </button>
                         </div>
@@ -54,7 +58,8 @@
                                     <span class="text-gray-300">{{ $movie['runtime'] ?? 'N/A' }} mins</span>
                                     <span class="text-gray-400">•</span>
                                     @foreach ($movie['genres'] as $genre)
-                                        <span class="px-3 py-1 rounded-full bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-200 text-sm border border-cyan-500/30">
+                                        <span
+                                            class="px-3 py-1 rounded-full bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-200 text-sm border border-cyan-500/30">
                                     {{ $genre['name'] }}
                                 </span>
                                     @endforeach
@@ -63,13 +68,16 @@
 
                             <!-- Action Buttons (Desktop) -->
                             <div class="hidden md:flex space-x-3">
-                                <button class="watchlist-btn flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:opacity-90 transition-opacity">
+                                <button
+                                    class="watchlist-btn flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:opacity-90 transition-opacity">
                                     <i class="fas fa-plus mr-2"></i> Watchlist
                                 </button>
-                                <button class="watched-btn flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:opacity-90 transition-opacity">
+                                <button
+                                    class="watched-btn flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:opacity-90 transition-opacity">
                                     <i class="fas fa-check"></i>
                                 </button>
-                                <button class="like-btn flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-500 to-yellow-500 text-white hover:opacity-90 transition-opacity">
+                                <button
+                                    class="like-btn flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-500 to-yellow-500 text-white hover:opacity-90 transition-opacity">
                                     <i class="fas fa-heart"></i>
                                 </button>
                             </div>
@@ -86,9 +94,11 @@
                                     <path d="M18 2.0845
                                       a 15.9155 15.9155 0 0 1 0 31.831
                                       a 15.9155 15.9155 0 0 1 0 -31.831"
-                                          fill="none" stroke="#00dbde" stroke-width="3" stroke-dasharray="{{ $movie['vote_average'] * 10 }}, 100"/>
+                                          fill="none" stroke="#00dbde" stroke-width="3"
+                                          stroke-dasharray="{{ $movie['vote_average'] * 10 }}, 100"/>
                                 </svg>
-                                <div class="absolute inset-0 flex items-center justify-center text-white font-bold text-sm">
+                                <div
+                                    class="absolute inset-0 flex items-center justify-center text-white font-bold text-sm">
                                     {{ number_format($movie['vote_average'], 1) }}
                                 </div>
                             </div>
@@ -139,7 +149,8 @@
                                                             class="w-10 h-10 rounded-full object-cover"
                                                         >
                                                     @else
-                                                        <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-gray-500">
+                                                        <div
+                                                            class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-gray-500">
                                                             <i class="fas fa-user"></i>
                                                         </div>
                                                     @endif
@@ -238,16 +249,18 @@
                 <!-- Review Form -->
                 <div class="bg-gray-700 rounded-xl p-5 mb-8" x-data="{ rating:0 }">
                     <h3 class="text-lg font-semibold text-white mb-4">Write a Review</h3>
-                    <form action="{{ auth()->check() ? route('postReview', ['movie' => $movie['id'], 'user' => auth()->user()->id]) : route('login.index') }}" method="POST">
+                    <form
+                        action="{{ auth()->check() ? route('postReview', ['movie' => $movie['id'], 'user' => auth()->user()->id]) : route('login.index') }}"
+                        method="POST">
                         @csrf
                         <div class="mb-4">
                             <label class="block text-gray-300 mb-2">Your Rating</label>
                             <div class="flex space-x-1">
                                 @for($i = 1; $i <= 5; $i++)
                                     <button type="button"
-                                        class="text-2xl text-gray-400 hover:text-yellow-400 focus:outline-none"
-                                        :class="rating >= {{ $i }} ? 'text-yellow-400' : 'text-gray-400'"
-                                        @click="rating = {{ $i }}">
+                                            class="text-2xl text-gray-400 hover:text-yellow-400 focus:outline-none"
+                                            :class="rating >= {{ $i }} ? 'text-yellow-400' : 'text-gray-400'"
+                                            @click="rating = {{ $i }}">
                                         ★
                                     </button>
                                 @endfor
@@ -270,49 +283,61 @@
                 </div>
 
 
-
                 <!-- Reviews List -->
                 <div class="space-y-6">
                     @if ($reviews->isEmpty())
-                    <div class="bg-gray-700 text-gray-300 p-6 rounded-xl text-center">
-                        <h3 class="text-xl font-semibold mb-2">No Reviews Yet</h3>
-                        <p>Be the first to share your thoughts about this movie. We'd love to hear what you think!</p>
-                    </div>
+                        <div class="bg-gray-700 text-gray-300 p-6 rounded-xl text-center">
+                            <h3 class="text-xl font-semibold mb-2">No Reviews Yet</h3>
+                            <p>Be the first to share your thoughts about this movie. We'd love to hear what you
+                                think!</p>
+                        </div>
                     @else
                         @foreach($reviews as $review)
-                        <div class="bg-gray-700 rounded-xl p-5">
-                            <div class="flex items-start space-x-4">
-                                <div class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center text-gray-300">
-                                    <i class="fas fa-user text-xl"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex justify-between items-start">
-                                        <h3 class="text-white font-medium">{{ $review['username'] }}</h3>
-                                        <div class="flex items-center">
-                                            <span class="text-yellow-400 mr-1">
-                                                @for ($i=0;$i<$review['rating'];$i++)
-                                                ★
-                                                @endfor
-                                            </span>
-                                            <span class="text-gray-400 text-sm">{{ $review['rating'] }}/5</span>
+                            <div class="bg-gray-700 rounded-xl p-5">
+                                <div class="flex items-start space-x-4">
+                                    <!-- Profile Picture -->
+                                    <a href="{{ auth()->check() && auth()->id() === $review['userID'] ? route('profile.private') : route('profile.public', ['user' => $review['userID']]) }}"
+                                       class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center text-gray-300">
+                                        @if ($review['user_pfp'])
+                                            <img src="{{ $review['user_pfp'] }}" alt="{{ $review['username'] }}" class="w-full h-full rounded-full object-cover">
+                                        @else
+                                            <i class="fas fa-user text-xl"></i>
+                                        @endif
+                                    </a>
+
+                                    <div class="flex-1">
+                                        <div class="flex justify-between items-start">
+                                            <!-- Username -->
+                                            <a href="{{ auth()->check() && auth()->id() === $review['userID'] ? route('profile.private') : route('profile.public', ['user' => $review['userID']]) }}"
+                                               class="text-white font-medium hover:underline">
+                                                {{ $review['username'] }}
+                                            </a>
+                                            <div class="flex items-center">
+                                <span class="text-yellow-400 mr-1">
+                                    @for ($i = 0; $i < $review['rating']; $i++)
+                                        ★
+                                    @endfor
+                                </span>
+                                                <span class="text-gray-400 text-sm">{{ $review['rating'] }}/5</span>
+                                            </div>
                                         </div>
+                                        <p class="text-gray-400 text-sm mb-2">{{ \Carbon\Carbon::parse($review['created_at'])->diffForHumans() }}</p>
+                                        <p class="text-gray-300">{{ $review['description'] }}</p>
                                     </div>
-                                    <p class="text-gray-400 text-sm mb-2">{{ \Carbon\Carbon::parse($review['created_at'])->diffForHumans() }}</p>
-                                    <p class="text-gray-300">{{ $review['description'] }}</p>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
                     @endif
                 </div>
 
                 <!-- View All Reviews Button -->
                 @if ($reviews->count() > 4)
-                <div class="mt-6 text-center">
-                    <button class="px-6 py-2 border border-cyan-500 text-cyan-400 rounded-full hover:bg-cyan-500/10 transition-colors">
-                        View All Reviews
-                    </button>
-                </div>
+                    <div class="mt-6 text-center">
+                        <button
+                            class="px-6 py-2 border border-cyan-500 text-cyan-400 rounded-full hover:bg-cyan-500/10 transition-colors">
+                            View All Reviews
+                        </button>
+                    </div>
                 @endif
             </div>
 
@@ -324,8 +349,10 @@
                     </h2>
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                         @foreach ($similarMovies as $similar)
-                            <div class="group relative rounded-xl overflow-hidden transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl">
-                                <a href="{{ route('movies.show', $similar['id']) }}" class="block">                                    <div class="relative pb-[150%]">
+                            <div
+                                class="group relative rounded-xl overflow-hidden transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl">
+                                <a href="{{ route('movies.show', $similar['id']) }}" class="block">
+                                    <div class="relative pb-[150%]">
                                         @if ($similar['poster_path'])
                                             <img
                                                 src="https://image.tmdb.org/t/p/w500{{ $similar['poster_path'] }}"
@@ -334,14 +361,17 @@
                                                 loading="lazy"
                                             >
                                         @else
-                                            <div class="absolute h-full w-full bg-gray-700 flex items-center justify-center text-gray-500">
+                                            <div
+                                                class="absolute h-full w-full bg-gray-700 flex items-center justify-center text-gray-500">
                                                 <i class="fas fa-image text-4xl"></i>
                                             </div>
                                         @endif
-                                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
                                         <!-- Mobile: Always show basic info -->
-                                        <div class="md:hidden absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent">
+                                        <div
+                                            class="md:hidden absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent">
                                             <div class="absolute bottom-0 left-0 right-0 p-3">
                                                 <h3 class="text-white font-bold text-sm truncate">{{ $similar['title'] }}</h3>
                                                 <div class="flex justify-between items-center text-xs">
@@ -356,8 +386,10 @@
                                         </div>
 
                                         <!-- Desktop: Full details on hover only -->
-                                        <div class="hidden md:flex absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 items-end p-4">
-                                            <div class="w-full transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                                        <div
+                                            class="hidden md:flex absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 items-end p-4">
+                                            <div
+                                                class="w-full transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                                                 <h3 class="text-white font-bold text-lg mb-1">{{ $similar['title'] }}</h3>
                                                 <div class="flex justify-between items-center text-sm mb-3">
                                         <span class="text-movie-accent font-medium">
@@ -367,7 +399,8 @@
                                             {{ $similar['release_date'] ? substr($similar['release_date'], 0, 4) : 'N/A' }}
                                         </span>
                                                 </div>
-                                                <button class="w-full py-1.5 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-full text-sm font-medium hover:opacity-90 transition-opacity">
+                                                <button
+                                                    class="w-full py-1.5 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-full text-sm font-medium hover:opacity-90 transition-opacity">
                                                     <i class="fas fa-plus mr-1"></i> Watchlist
                                                 </button>
                                             </div>

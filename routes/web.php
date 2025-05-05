@@ -4,6 +4,7 @@ use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\UserController;
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Movie;
@@ -30,6 +31,11 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/register', [RegistrationController::class, 'create'])->name('register.index');
 Route::post('/register', [RegistrationController::class, 'store'])->name('register.store');
+
+
+//profile
+Route::get('/profile', [UserController::class, 'private'])->name('profile.private')->middleware('auth');
+Route::get('/profile/{user}', [UserController::class, 'public'])->name('profile.public');
 
 
 //review
