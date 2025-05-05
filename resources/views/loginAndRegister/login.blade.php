@@ -48,7 +48,7 @@
         </form>
 
         <div class="text-center mt-6">
-            <p class="text-white text-sm">Don't have an account? <a href="#" class="text-cyan-500 hover:text-cyan-400">Register</a></p>
+            <p class="text-white text-sm">Don't have an account? <a href="{{ route('register.index') }}" class="text-cyan-500 hover:text-cyan-400">Register</a></p>
         </div>
     </div>
 </div>
