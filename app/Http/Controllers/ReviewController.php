@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Review;
 use App\Models\User;
+use App\Models\Movie;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
@@ -28,4 +29,14 @@ class ReviewController extends Controller
 
         return redirect("/movies/{$movie}");
     }
+
+    public function findByMovie($movieID){
+        $reviews = Review::where('movieID', $movieID)
+        ->orderBy('created_at', 'asc')
+        ->paginate(15);
+
+        $movie = Movie::where('tmdb_id', $movieID)->first();
+        
+
+        return view('movies.reviews', ['reviews' => $reviews, 'movie'=>$movie]);    }
 }

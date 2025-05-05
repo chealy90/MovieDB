@@ -48,7 +48,7 @@ class MovieController extends Controller
         // Get similar movies
         $similarMovies = $this->tmdbService->getSimilarMovies($id);
 
-        $reviews = Review::where('movieID', $id)->get();
+        $reviews = Review::where('movieID', $id)->orderBy('created_at', 'asc')->take(4)->get();
 
         return view('movies.show', [
             'movie' => $movieDetails,

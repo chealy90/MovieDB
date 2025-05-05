@@ -30,3 +30,5 @@ Route::post('/register', [RegistrationController::class, 'store'])->name('regist
 
 //review
 Route::post('/postReview/{movie}/{user}', [ReviewController::class, 'create'])->name('postReview');
+Route::get('/movieReviews/{id}', [ReviewController::class, 'findByMovie'])->name('movieReviews');
+
