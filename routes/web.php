@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
@@ -40,3 +41,7 @@ Route::get('/profile/{user}', [UserController::class, 'public'])->name('profile.
 
 //review
 Route::post('/postReview/{movie}/{user}', [ReviewController::class, 'create'])->name('postReview');
+
+
+// personas (actors/directors)
+Route::get('/person/{id}', [PersonController::class, 'show'])->name('person.show');

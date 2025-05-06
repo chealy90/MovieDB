@@ -115,9 +115,7 @@
 
                         <!-- Director & Cast -->
                         <div class="mb-8">
-                            <h2 class="text-xl font-semibold text-white mb-3 relative pb-2 after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-10 after:h-0.5 after:bg-gradient-to-r after:from-cyan-500 after:to-blue-500">
-                                Cast & Crew
-                            </h2>
+                            <h2 class="text-xl font-semibold text-white mb-3">Cast & Crew</h2>
                             <div class="space-y-4">
                                 <!-- Director -->
                                 @if (!empty($movie['credits']['crew']))
@@ -126,9 +124,10 @@
                                         <div class="flex flex-wrap gap-3">
                                             @foreach ($movie['credits']['crew'] as $crew)
                                                 @if ($crew['job'] === 'Director')
-                                                    <span class="px-4 py-2 bg-gray-700 rounded-full text-white">
-                                            {{ $crew['name'] }}
-                                        </span>
+                                                    <a href="{{ route('person.show', $crew['id']) }}"
+                                                       class="px-4 py-2 bg-gray-700 rounded-full text-white">
+                                                        {{ $crew['name'] }}
+                                                    </a>
                                                 @endif
                                             @endforeach
                                         </div>
@@ -155,7 +154,10 @@
                                                         </div>
                                                     @endif
                                                     <div>
-                                                        <p class="text-white text-sm font-medium">{{ $cast['name'] }}</p>
+                                                        <a href="{{ route('person.show', $cast['id']) }}"
+                                                           class="text-white text-sm font-medium hover:underline">
+                                                            {{ $cast['name'] }}
+                                                        </a>
                                                         <p class="text-gray-400 text-xs">{{ $cast['character'] }}</p>
                                                     </div>
                                                 </div>

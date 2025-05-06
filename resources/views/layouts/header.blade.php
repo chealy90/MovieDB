@@ -51,7 +51,7 @@
                     <!-- Dropdown Menu -->
                     <div x-show="userMenuOpen" @click.away="userMenuOpen = false" x-cloak
                          class="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-2xl py-2 z-50 overflow-hidden">
-                        <a href="#" class="block px-5 py-3 text-gray-800 hover:bg-gray-100 transition-colors duration-300 flex items-center">
+                        <a href="{{ route('profile.private') }}" class="block px-5 py-3 text-gray-800 hover:bg-gray-100 transition-colors duration-300 flex items-center">
                             <i class="fas fa-user mr-3 text-cyan-500"></i> My Profile
                         </a>
                         <a href="#" class="block px-5 py-3 text-gray-800 hover:bg-gray-100 transition-colors duration-300 flex items-center">
@@ -149,8 +149,8 @@
 <!-- Mobile User Menu -->
 <div x-show="userMenuOpen && mobileMenuOpen" x-cloak
      class="lg:hidden bg-gray-800 px-6 py-3 transition-all duration-500 ease-in-out">
-    <a href="#" class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">
-        <i class="fas fa-user mr-3 text-cyan-400"></i> My Profile
+    <a href="{{ route('profile.private') }}" class="block px-5 py-3 text-gray-800 hover:bg-gray-100 transition-colors duration-300 flex items-center">
+        <i class="fas fa-user mr-3 text-cyan-500"></i> My Profile
     </a>
     <a href="#" class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">
         <i class="fas fa-bookmark mr-3 text-purple-400"></i> Watchlist

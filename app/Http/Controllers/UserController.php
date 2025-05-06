@@ -2,56 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Review;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    /**
-     * Display the private profile of the authenticated user.
-     */
-    public function private(Request $request)
+    public function private()
     {
-        $user = $request->user();
+        $user = auth()->user();
 
-        // Example data for stats and sections
-        $moviesWatched = 120; // Replace with actual logic
-        $moviesLiked = 45; // Replace with actual logic
-        $followers = 300; // Replace with actual logic
-        $following = 150; // Replace with actual logic
-        $recentActivity = ['Watched "Inception"', 'Liked "The Dark Knight"']; // Replace with actual logic
-        $lists = []; // Replace with actual logic
-        $diaryEntries = []; // Replace with actual logic
+        $reviewsCount = Review::where('userID', $user->id)->count();
+        $moviesLiked = $user->moviesLiked()->count();
+        $followers = $user->followers()->count();
+        $following = $user->following()->count();
 
-        return view('profile.private', compact(
-            'user',
-            'moviesWatched',
-            'moviesLiked',
-            'followers',
-            'following',
-            'recentActivity',
-            'lists',
-            'diaryEntries'
-        ));
+        // Example: Retrieve recent activity
+        $recentActivity = Review::where('userID', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->pluck('description');
+
+        // Retrieve the user's lists
+        $lists = $user->savedLists()
+            ->join('lists', 'saved_lists.list_id', '=', 'lists.id')
+            ->select('lists.*')
+            ->get();
+
+        // Retrieve the user's logs (diary entries)
+        $diaryEntries = $user->logs()
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('profile.private', compact('user', 'reviewsCount', 'moviesLiked', 'followers', 'following', 'recentActivity', 'lists', 'diaryEntries'));
     }
 
-    /**
-     * Display the public profile of a specific user.
-     */
     public function public(User $user)
     {
-        // Example data for stats and public sections
-        $moviesWatched = 120; // Replace with actual logic
-        $moviesLiked = 45; // Replace with actual logic
-        $followers = 300; // Replace with actual logic
-        $publicLists = []; // Replace with actual logic
+        $reviewsCount = Review::where('userID', $user->id)->count();
+        $moviesLiked = $user->moviesLiked()->count();
+        $followers = $user->followers()->count();
+        $following = $user->following()->count();
 
-        return view('profile.public', compact(
-            'user',
-            'moviesWatched',
-            'moviesLiked',
-            'followers',
-            'publicLists'
-        ));
+        // Retrieve public lists for the user by joining the lists table
+        $publicLists = $user->savedLists()
+            ->join('lists', 'saved_lists.list_id', '=', 'lists.id')
+            ->where('lists.is_private', false)
+            ->select('lists.*') // Select fields from the lists table
+            ->get();
+
+        return view('profile.public', compact('user', 'reviewsCount', 'moviesLiked', 'followers', 'following', 'publicLists'));
     }
 }

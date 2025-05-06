@@ -7,7 +7,16 @@
         <!-- Profile Header -->
         <div class="flex items-center justify-between gap-6 mb-8">
             <div class="flex items-center gap-6">
-                <img src="{{ $user->pfp }}" alt="{{ $user->name }}" class="w-24 h-24 rounded-full object-cover">
+                <div class="w-24 h-24 rounded-full bg-gray-700 flex items-center justify-center text-gray-500">
+                    @if ($user->pfp)
+                        <img
+                            src="{{ $user->pfp }}"
+                            alt="{{ $user->name }}"
+                            class="w-full h-full rounded-full object-cover">
+                    @else
+                        <i class="fas fa-user text-4xl"></i>
+                    @endif
+                </div>
                 <div>
                     <h1 class="text-3xl font-bold text-white">{{ $user->name }}</h1>
                     <a href="#" class="px-4 py-2 mt-2 inline-block bg-cyan-500 text-white rounded-full hover:bg-cyan-600 transition-all">
@@ -18,12 +27,12 @@
             <!-- Stats -->
             <div class="flex gap-4">
                 <div class="text-center">
-                    <h2 class="text-xl font-bold text-white">{{ $moviesWatched }}</h2>
-                    <p class="text-gray-400 text-sm">Movies Watched</p>
-                </div>
-                <div class="text-center">
                     <h2 class="text-xl font-bold text-white">{{ $moviesLiked }}</h2>
                     <p class="text-gray-400 text-sm">Movies Liked</p>
+                </div>
+                <div class="text-center">
+                    <h2 class="text-xl font-bold text-white">{{ $reviewsCount }}</h2>
+                    <p class="text-gray-400 text-sm">Reviews</p>
                 </div>
                 <div class="text-center">
                     <h2 class="text-xl font-bold text-white">{{ $followers }}</h2>
