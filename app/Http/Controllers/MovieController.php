@@ -74,12 +74,21 @@ class MovieController extends Controller
             $similarMovies = $this->tmdbService->getSimilarMovies($id);
             $reviews = Review::where('movieID', $id)->orderBy('created_at', 'asc')->take(4)->get();
 
+            $inWatchList = auth()->user()->watchlist->contains(function ($watchlistMovie) use ($movie) {
+                return $watchlistMovie->pivot->movie_id == $movie['id'];
+            });
+
             return view('movies.show', [
                 'movie' => $movieDetails,
+                
                 'similarMovies' => $similarMovies,
                 'reviews' => $reviews,
-                'dbMovie' => $movie // Pass the local DB record too
+                'dbMovie' => $movie,
+                'inWatchlist' => $inWatchList 
             ]);
+
+
+            // Pass the local DB record too
 
         } catch (\Exception $e) {
             return redirect()->route('movies.index')

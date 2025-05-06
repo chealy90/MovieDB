@@ -3,6 +3,9 @@
 @section('title', $movie['title'])
 
 
+
+
+
 @section('content')
     <div>
         <div class="container mx-auto px-4">
@@ -63,10 +66,29 @@
                             </div>
 
                             <!-- Action Buttons (Desktop) -->
+                            <form action="{{ route('watchlist.add', ['movie'=>$movie['id'], 'user'=>auth()->user()->id]) }}" method="POST" x-ref="watchlistAddForm">@csrf</form>
+                            <form action="{{ route('watchlist.remove', ['movie'=>$movie['id'], 'user'=>auth()->user()->id]) }}" method="POST" x-ref="watchlistRemoveForm">@csrf</form>
+
                             <div class="hidden md:flex space-x-3">
-                                <button class="watchlist-btn flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:opacity-90 transition-opacity">
-                                    <i class="fas fa-plus mr-2"></i> Watchlist
+                                <!-- add to watchlist button -->
+                                <button 
+                                    @if($inWatchlist) 
+                                        class="watchlist-btn flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white  opacity-70 transition-opacity"
+                                        @click="$refs.watchlistRemoveForm.submit()"
+                                    @else
+                                        class="watchlist-btn flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:opacity-90 transition-opacity"
+                                        @click="$refs.watchlistAddForm.submit()"
+                                    @endif
+                                >
+                                    <i class="fas fa-plus mr-2"></i>
+                                    @if($inWatchlist)
+                                        In Watchlist
+                                    @else
+                                        Watchlist
+                                    @endif
                                 </button>
+
+
                                 <button class="watched-btn flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:opacity-90 transition-opacity">
                                     <i class="fas fa-check"></i>
                                 </button>

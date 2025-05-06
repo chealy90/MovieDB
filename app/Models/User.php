@@ -8,6 +8,22 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/*
+public function usersWatching()
+{
+    return $this->belongsToMany(User::class, 'watchlist_movie')
+                ->withPivot('watched')
+                ->withTimestamps();
+}
+
+
+// this will be needed to access the users watchlist in the profile section
+
+
+*/
+
+
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -47,5 +63,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function watchlist() {
+        return $this->belongsToMany(Movie::class, 'watchlist_movie')
+            ->withTimestamps();
     }
 }
