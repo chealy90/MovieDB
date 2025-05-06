@@ -299,9 +299,9 @@
                                 <div class="flex items-start space-x-4">
                                     <!-- Profile Picture -->
                                     <a href="{{ auth()->check() && auth()->id() === $review['userID'] ? route('profile.private') : route('profile.public', ['user' => $review['userID']]) }}"
-                                       class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center text-gray-300">
+                                       class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center text-gray-300 overflow-hidden">
                                         @if ($review['user_pfp'])
-                                            <img src="{{ $review['user_pfp'] }}" alt="{{ $review['username'] }}" class="w-full h-full rounded-full object-cover">
+                                            <img src="{{ $review['user_pfp'] }}" alt="{{ $review['username'] }}" class="w-full h-full object-cover">
                                         @else
                                             <i class="fas fa-user text-xl"></i>
                                         @endif

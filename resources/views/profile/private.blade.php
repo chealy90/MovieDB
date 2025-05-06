@@ -19,11 +19,77 @@
                 </div>
                 <div>
                     <h1 class="text-3xl font-bold text-white">{{ $user->name }}</h1>
-                    <a href="#" class="px-4 py-2 mt-2 inline-block bg-cyan-500 text-white rounded-full hover:bg-cyan-600 transition-all">
+                    <!-- Edit Profile Button -->
+                    <button
+                        class="px-4 py-2 mt-2 inline-block bg-cyan-500 text-white rounded-full hover:bg-cyan-600 transition-all"
+                        onclick="toggleModal()">
                         Edit Profile
-                    </a>
+                    </button>
                 </div>
             </div>
+
+            <!-- Modal -->
+            <div id="editProfileModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+                <div class="bg-gray-800 rounded-lg shadow-lg w-full max-w-md p-6">
+                    <h2 class="text-2xl font-bold text-white mb-6 text-center">Edit Profile</h2>
+                    <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+
+                        <!-- Profile Picture -->
+                        <div class="flex flex-col items-center mb-6">
+                            <div class="w-24 h-24 rounded-full bg-gray-700 flex items-center justify-center text-gray-500 mb-4">
+                                <img
+                                    id="profilePicturePreview"
+                                    src="{{ $user->pfp ? $user->pfp : '' }}"
+                                    alt="{{ $user->name }}"
+                                    class="w-full h-full rounded-full object-cover"
+                                    onerror="this.src='{{ asset('default-profile.png') }}'; this.onerror=null;">
+                            </div>
+                            <label class="cursor-pointer bg-cyan-500 text-white px-4 py-2 rounded-lg hover:bg-cyan-600 transition-all">
+                                <span>Change Picture</span>
+                                <input
+                                    type="file"
+                                    id="pfp"
+                                    name="pfp"
+                                    class="hidden"
+                                    accept="image/*"
+                                    onchange="previewProfilePicture(event)">
+                            </label>
+                            <p class="text-sm text-gray-400 mt-2">Accepted formats: jpeg, png, jpg, gif. Max size: 2MB.</p>
+                        </div>
+
+                        <!-- Name Input -->
+                        <div class="mb-6">
+                            <label for="name" class="block text-gray-400 mb-2">Name</label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value="{{ $user->name }}"
+                                class="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                required>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="flex justify-end gap-4">
+                            <button
+                                type="button"
+                                class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-all"
+                                onclick="toggleModal()">
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                class="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-all">
+                                Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
             <!-- Stats -->
             <div class="flex gap-4">
                 <div class="text-center">
@@ -83,4 +149,23 @@
             </ul>
         </div>
     </div>
+
+    <script>
+        function toggleModal() {
+            const modal = document.getElementById('editProfileModal');
+            modal.classList.toggle('hidden');
+        }
+
+        function previewProfilePicture(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('profilePicturePreview');
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
 @endsection

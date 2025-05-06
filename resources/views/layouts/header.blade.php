@@ -43,8 +43,12 @@
                 <div class="relative ml-6">
                     <button @click="userMenuOpen = !userMenuOpen" class="flex items-center space-x-3 focus:outline-none">
                         <span class="text-white font-medium">{{ Auth::user()->name }}</span>
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-white user-avatar">
-                            <i class="fas fa-user text-lg"></i>
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-white user-avatar overflow-hidden">
+                            @if (Auth::user()->pfp)
+                                <img src="{{ Auth::user()->pfp }}" alt="{{ Auth::user()->name }}" class="w-full h-full object-cover">
+                            @else
+                                <i class="fas fa-user text-lg"></i>
+                            @endif
                         </div>
                     </button>
 

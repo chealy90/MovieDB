@@ -72,7 +72,10 @@ class MovieController extends Controller
             );
 
             $similarMovies = $this->tmdbService->getSimilarMovies($id);
-            $reviews = Review::where('movieID', $id)->get();
+            $reviews = Review::join('users', 'reviews.userID', '=', 'users.id')
+                ->select('reviews.*', 'users.pfp as user_pfp', 'users.name as username')
+                ->where('movieID', $id)
+                ->get();
 
             return view('movies.show', [
                 'movie' => $movieDetails,

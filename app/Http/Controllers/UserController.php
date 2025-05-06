@@ -53,4 +53,25 @@ class UserController extends Controller
 
         return view('profile.public', compact('user', 'reviewsCount', 'moviesLiked', 'followers', 'following', 'publicLists'));
     }
+
+    public function update(Request $request)
+    {
+        $user = auth()->user();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'pfp' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user->name = $request->name;
+
+        if ($request->hasFile('pfp')) {
+            $path = $request->file('pfp')->store('profile_pictures', 'public');
+            $user->pfp = '/storage/' . $path;
+        }
+
+        $user->save();
+
+        return redirect()->route('profile.private')->with('success', 'Profile updated successfully.');
+    }
 }
