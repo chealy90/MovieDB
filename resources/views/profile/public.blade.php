@@ -19,6 +19,29 @@
                 </div>
                 <div>
                     <h1 class="text-3xl font-bold text-white">{{ $user->name }}</h1>
+                    @if (auth()->check() && auth()->id() !== $user->id)
+                        @if (auth()->user()->following->contains($user->id))
+                            <!-- Unfollow Button -->
+                            <form action="{{ route('profile.unfollow', ['user' => $user->id]) }}" method="POST" class="inline-block mt-2">
+                                @csrf
+                                <button
+                                    type="submit"
+                                    class="px-4 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-all">
+                                    Unfollow
+                                </button>
+                            </form>
+                        @else
+                            <!-- Follow Button -->
+                            <form action="{{ route('profile.follow', ['user' => $user->id]) }}" method="POST" class="inline-block mt-2">
+                                @csrf
+                                <button
+                                    type="submit"
+                                    class="px-4 py-2 bg-cyan-500 text-white rounded-full hover:bg-cyan-600 transition-all">
+                                    Follow
+                                </button>
+                            </form>
+                        @endif
+                    @endif
                 </div>
             </div>
             <!-- Stats -->

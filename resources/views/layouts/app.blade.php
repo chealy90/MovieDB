@@ -6,6 +6,9 @@
 
     <title>@yield('title')</title>
 
+    <!-- Favicon -->
+    <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 

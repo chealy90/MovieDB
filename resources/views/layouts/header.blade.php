@@ -61,9 +61,6 @@
                         <a href="#" class="block px-5 py-3 text-gray-800 hover:bg-gray-100 transition-colors duration-300 flex items-center">
                             <i class="fas fa-bookmark mr-3 text-purple-500"></i> Watchlist
                         </a>
-                        <a href="#" class="block px-5 py-3 text-gray-800 hover:bg-gray-100 transition-colors duration-300 flex items-center">
-                            <i class="fas fa-cog mr-3 text-gray-500"></i> Settings
-                        </a>
                         <div class="border-t border-gray-200 my-1"></div>
                         <a href="#"
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"

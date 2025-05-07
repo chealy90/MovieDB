@@ -38,6 +38,8 @@ Route::post('/register', [RegistrationController::class, 'store'])->name('regist
 Route::get('/profile', [UserController::class, 'private'])->name('profile.private')->middleware('auth');
 Route::get('/profile/{user}', [UserController::class, 'public'])->name('profile.public');
 Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update'); // update profile
+Route::post('/profile/{user}/follow', [UserController::class, 'follow'])->name('profile.follow')->middleware('auth'); // follow user
+Route::post('/profile/{user}/unfollow', [UserController::class, 'unfollow'])->name('profile.unfollow')->middleware('auth'); // unfollow user
 
 
 //review

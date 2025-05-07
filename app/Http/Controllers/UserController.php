@@ -74,4 +74,39 @@ class UserController extends Controller
 
         return redirect()->route('profile.private')->with('success', 'Profile updated successfully.');
     }
+
+    public function follow(User $user)
+    {
+        $authUser = auth()->user();
+
+        // Prevent following yourself
+        if ($authUser->id === $user->id) {
+            return redirect()->back()->with('error', 'You cannot follow yourself.');
+        }
+
+        // Check if already following
+        if ($authUser->following()->where('followed_id', $user->id)->exists()) {
+            return redirect()->back()->with('error', 'You are already following this user.');
+        }
+
+        // Add follow relationship
+        $authUser->following()->attach($user->id, ['following_since' => now()]);
+
+        return redirect()->back()->with('success', 'You are now following ' . $user->name . '.');
+    }
+
+    public function unfollow(User $user)
+    {
+        $authUser = auth()->user();
+
+        // Check if the user is following the profile owner
+        if (!$authUser->following()->where('followed_id', $user->id)->exists()) {
+            return redirect()->back()->with('error', 'You are not following this user.');
+        }
+
+        // Remove the follow relationship
+        $authUser->following()->detach($user->id);
+
+        return redirect()->back()->with('success', 'You have unfollowed ' . $user->name . '.');
+    }
 }
