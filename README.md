@@ -7,20 +7,6 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
 # MovieDB
 This sites lets users share their experiences with movies, create and find playlists, and find something to watch.
 
@@ -35,6 +21,29 @@ After downloading the project:
 To start the application:
 1. ```npm run build```.
 2. ```php artisan serve```.
+
+
+## Using the application
+### Logging in:
+Users can register or log in by pressing on the "Log in" / "Register" buttons on the top right window of the stage.
+All you need is to enter your name, email and password.
+
+![image](https://github.com/user-attachments/assets/0a73966f-aba2-4694-81ed-36530cbfe069)
+
+## Finding movies
+Users can search for specific titles in the search bar in the header menu. From there users have the option to further refine their search with by genre and year, and to sort.
+
+## Viewing movie info.
+Clicking on a movie preview tile will take you to that movies focus page.
+Here you will find all sorts of information about the movie, trailers, cast, and reviews from other users.
+
+### Interacting with a movie:
+Logged in users have the option to:
+- Review a movie,
+- Add it to their watchlist
+- Mark it as watched,
+- Add it to their own custom playlists
+
 
 
 
