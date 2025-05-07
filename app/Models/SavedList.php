@@ -9,7 +9,7 @@ class SavedList extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'list_id'];
+    protected $fillable = ['user_id', 'list_id', ''];
 
     public function user()
     {

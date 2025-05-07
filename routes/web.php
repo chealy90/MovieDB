@@ -6,6 +6,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\PlaylistController;
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Movie;
@@ -62,4 +63,9 @@ Route::get('/watchlist/{user}', [UserController::class, 'displayWatchlist'])->na
 Route::post('/addToWatchedList/{movie}', [UserController::class, 'setWatched'])->name('watched.add');
 Route::post('/removeFromWatchedList/{movie}', [UserController::class, 'setUnwatched'])->name('watched.remove');
 
+//custom playlists
+Route::post('/createPlaylist', [PlaylistController::class, 'store'])->name('playlist.create');
+Route::post('/addToPlaylist', [PlaylistController::class, 'addToPlaylist'])->name('playlist.addMovie');
+
+Route::get('/playlist/{playlistID}', [PlaylistController::class, 'show'])->name('playlist.show');
 

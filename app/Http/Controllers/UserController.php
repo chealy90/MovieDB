@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Movie;
 use App\Models\Review;
 use App\Models\User;
+use App\Models\Playlist;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -18,6 +19,7 @@ class UserController extends Controller
         $followers = $user->followers()->count();
         $following = $user->following()->count();
         $watchedMovies = auth()->user()->watchedList;
+        $playlists = Playlist::where('userID', auth()->user()->id)->get();
 
         // Example: Retrieve recent activity
         $recentActivity = Review::where('userID', $user->id)
@@ -36,7 +38,7 @@ class UserController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('profile.private', compact('user', 'reviewsCount', 'moviesLiked', 'followers', 'following', 'recentActivity', 'lists', 'diaryEntries', 'watchedMovies'));
+        return view('profile.private', compact('user', 'reviewsCount', 'moviesLiked', 'followers', 'following', 'recentActivity', 'lists', 'diaryEntries', 'watchedMovies', 'playlists'));
     }
 
     public function public(User $user)
@@ -177,4 +179,6 @@ class UserController extends Controller
 
         return redirect("/movies/{$movie->tmdb_id}");
     }
+
+    
 }

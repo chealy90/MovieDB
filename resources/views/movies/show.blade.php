@@ -113,14 +113,42 @@
                                 </button>
 
 
-
-
-                                <button class="like-btn flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-500 to-yellow-500 text-white hover:opacity-90 transition-opacity">
-
-                                    <i class="fas fa-heart"></i>
+                                <button onclick="toggleModal('addToPlaylistModal')" class="text-white bg-cyan-500 hover:bg-cyan-600 rounded-full p-2">
+                                    <i class="fas fa-plus"></i>
                                 </button>
+                                
                             </div>
                         </div>
+
+
+                        <!-- Add to Playlist Modal -->
+                        <div id="addToPlaylistModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+                            <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+                                <h2 class="text-2xl font-bold text-white mb-4">Add to Playlist</h2>
+                                <form action="{{ route('playlist.addMovie') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="movieID" value="{{ $movie['id'] }}"> <!-- assumes $movie is an array -->
+
+                                    <div class="mb-4">
+                                        <label for="playlistID" class="block text-gray-300 mb-2">Choose Playlist</label>
+                                        <select name="playlistID" id="playlist" class="w-full bg-gray-700 text-white rounded-lg px-4 py-2">
+                                            @foreach ($playlists as $playlist)
+                                                <option value="{{ $playlist->id }}">{{ $playlist->playlist_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="flex justify-end">
+                                        <button type="button" onclick="toggleModal('addToPlaylistModal')" class="mr-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">Cancel</button>
+                                        <button type="submit" class="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
+
+
 
                         <!-- Rating -->
                         <div class="flex items-center mb-6">
@@ -458,4 +486,14 @@
             @endif
         </div>
     </div>
+
+
+
+    <script>
+        function toggleModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.toggle('hidden');
+        }
+    </script>
+    
 @endsection
