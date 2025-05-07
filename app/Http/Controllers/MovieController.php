@@ -7,6 +7,8 @@ use App\Models\Review;
 use App\Services\TmdbService;
 use App\Models\Playlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class MovieController extends Controller
 {
@@ -80,14 +82,22 @@ class MovieController extends Controller
                 ->take(4)
                 ->get();
 
+            $inWatchList;
+            $isWatched;
+            if (Auth::check()){
+                $inWatchList = auth()->user()->watchlist->contains(function ($watchlistMovie) use ($movie) {
+                    return $watchlistMovie->pivot->movie_id == $movie['id'];
+                });
+                $isWatched = auth()->user()->watchedlist->contains(function ($watchedListMovie) use ($movie) {
+                    return $watchedListMovie->pivot->movie_id == $movie['id'];
+                });
+            } else {
+                $inWatchList = false;
+                $isWatched = false;
+            }
+            
 
-            $inWatchList = auth()->user()->watchlist->contains(function ($watchlistMovie) use ($movie) {
-                return $watchlistMovie->pivot->movie_id == $movie['id'];
-            });
-
-            $isWatched = auth()->user()->watchedlist->contains(function ($watchedListMovie) use ($movie) {
-                return $watchedListMovie->pivot->movie_id == $movie['id'];
-            });
+            
 
             $playlists = $playlists = Playlist::where('userID', auth()->id())->get();
 
@@ -108,6 +118,7 @@ class MovieController extends Controller
             // Pass the local DB record too
 
         } catch (\Exception $e) {
+            dd($e);
             echo "not found";
             return redirect()->route('movies.index')              
                 ->with('error', 'Movie not found: ' . $e->getMessage());

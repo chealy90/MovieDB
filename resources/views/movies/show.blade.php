@@ -71,8 +71,18 @@
                             </div>
 
                             <!-- Action Buttons (Desktop) -->
-                            <form action="{{ route('watchlist.add', ['movie'=>$movie['id'], 'user'=>auth()->user()->id]) }}" method="POST" x-ref="watchlistAddForm">@csrf</form>
-                            <form action="{{ route('watchlist.remove', ['movie'=>$movie['id'], 'user'=>auth()->user()->id]) }}" method="POST" x-ref="watchlistRemoveForm">@csrf</form>
+                            @php
+                                $userId = auth()->check() ? auth()->user()->id : null;
+                                $action1 = $userId
+                                    ? route('watchlist.add', ['movie' => $movie['id'], 'user' => $userId])
+                                    : route('login.index');
+
+                                $action2 = $userId
+                                    ? route('watchlist.remove', ['movie' => $movie['id'], 'user' => $userId])
+                                    : route('login.index')
+                            @endphp
+                            <form action="{{ $action1 }}" method="POST" x-ref="watchlistAddForm">@csrf</form>
+                            <form action="{{ $action2 }}" method="POST" x-ref="watchlistRemoveForm">@csrf</form>
 
                             <div class="hidden md:flex space-x-3">
 
@@ -319,8 +329,14 @@
                 <!-- Review Form -->
                 <div class="bg-gray-700 rounded-xl p-5 mb-8" x-data="{ rating:0 }">
                     <h3 class="text-lg font-semibold text-white mb-4">Write a Review</h3>
+                    @php
+                        $userId = auth()->check() ? auth()->user()->id : null;
+                        $action = $userId
+                            ? route('postReview', ['movie' => $movie['id'], 'user' => $userId])
+                            : route('login.index');
+                    @endphp
                     <form
-                        action="{{ auth()->check() ? route('postReview', ['movie' => $movie['id'], 'user' => auth()->user()->id]) : route('login.index') }}"
+                        action="{{ $action }}"
                         method="POST">
                         @csrf
                         <div class="mb-4">
