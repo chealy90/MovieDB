@@ -1,67 +1,94 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎬 MovieDB Application 🎥
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![PHP](https://img.shields.io/badge/PHP-8.0+-777BB4?logo=php&logoColor=white)
+![Laravel](https://img.shields.io/badge/Laravel-FF2D20?logo=laravel&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white)
+![TMDB](https://img.shields.io/badge/Powered_by-TMDB-01D277?logo=themoviedatabase&logoColor=white)
 
-# MovieDB
-This sites lets users share their experiences with movies, create and find playlists, and find something to watch.
+This project is a movie database application that allows users to explore popular movies, manage watchlists, create playlists, and interact with other users through reviews and profiles.
 
-## Setup
-After downloading the project:
-1. Populate your .env file with ```cp .env.example .env``` .
-2. Build the project with ```composer install``` and ````npm install``.
-3. Create your database, and update your .env with your database details.
-4. Create a key with ```php artisan key:generate```.
-5. Turn on your database and run the migrations with ```php artisan migrate.```
+## ✨ Features
 
-To start the application:
-1. ```npm run build```.
-2. ```php artisan serve```.
+### 1. **🎥 Movie Browsing**
+- Browse popular movies, top-rated, now playing, and upcoming movies.
+- Filter movies by genre, release year, and sort by rating or release date.
 
+### 2. **📝 Watchlist Management**
+- Add movies to your watchlist to keep track of what you want to watch.
+- Remove movies from your watchlist when no longer needed.
 
-## Using the application
-### Logging in:
-Users can register or log in by pressing on the "Log in" / "Register" buttons on the top right window of the stage.
-All you need is to enter your name, email and password.
+### 3. **👀 Watched Movies**
+- Mark movies as watched or unwatched to track your viewing history.
 
-![image](https://github.com/user-attachments/assets/0a73966f-aba2-4694-81ed-36530cbfe069)
+### 4. **🎵 Playlists**
+- Create custom playlists and add movies to them.
+- Remove movies from playlists or delete playlists entirely.
 
-## Finding movies
-Users can search for specific titles in the search bar in the header menu. From there users have the option to further refine their search with by genre and year, and to sort.
+### 5. **📝 User Reviews**
+- Write reviews for movies and rate them.
+- View reviews from other users.
 
-## Viewing movie info.
-Clicking on a movie preview tile will take you to that movies focus page.
-Here you will find all sorts of information about the movie, trailers, cast, and reviews from other users.
+### 6. **👤 User Profiles**
+- View your private profile with personalized data like followers, following, and activity.
+- View public profiles of other users.
 
-### Interacting with a movie:
-Logged in users have the option to:
-- Review a movie,
-- Add it to their watchlist
-- Mark it as watched,
-- Add it to their own custom playlists
+### 7. **🔍 Search**
+- Search for movies by title and filter results by genre or release year.
 
-## Profile Page
-From the profile page users can update their info, view their watchlist, movies they've watched, and manage their playlists.
-The profile page also gives users the chance to see review history.
+---
 
+# 🛠️ Project Setup Instructions
 
+## 📋 Prerequisites
+Before setting up the project, ensure you have the following installed:
+- PHP >= 8.0
+- Composer
+- Node.js and npm
+- MySQL or any other database supported by Laravel
 
+## 🚀 Steps to Set Up the Project
 
-
-
-
-
-# commands (temp)
+### 1. **📥 Clone the Repository**
+```bash
+git clone https://github.com/shane-smyth/laravel_ca3.git
+cd <repository-folder>
 ```
-npm install
-composer install
+
+### 2. **📦 Install Dependencies**
+```
+composer install 
+npm instal
+```
+
+### 3. **⚙️ Set Up Environment Variables**
+- Copy the `.env.example` file to `.env`:
+- Update the `.env` file with your database credentials and other required configurations.
+
+```
+cp .env.example .env
+```
+
+### 4. **🗄️ Run Database Migrations**
+```
 php artisan migrate
-php artisan serve
-npm run dev
+```
+
+### 5. **🔗 Link Storage**
+```
 php artisan storage:link
+```
+
+### 6. **🎞️ Fetch Popular Movies**
+```
 php artisan tmdb:fetch-popular 50
 ```
+
+### 7. **🚀 Start the Development Server**
+```
+php artisan serve 
+npm run dev
+```
+
+### 8. **🌐 Access the Application**
+- Open your browser and navigate to `http://127.0.0.1:8000`.

@@ -21,33 +21,68 @@
                     <h1 class="text-3xl font-bold text-white">{{ $user->name }}</h1>
                     <!-- Edit Profile Button -->
                     <button
-                        class="px-4 py-2 mt-2 inline-block bg-cyan-500 text-white rounded-full hover:bg-cyan-600 transition-all"
-                        onclick="toggleModal()">
+                            class="px-4 py-2 mt-2 inline-block bg-cyan-500 text-white rounded-full hover:bg-cyan-600 transition-all"
+                            onclick="toggleModal('editProfileModal')">
                         Edit Profile
                     </button>
                 </div>
             </div>
 
+
             <!-- Edit Profile Modal -->
-            <div id="editProfileModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+            <div id="editProfileModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
                 <div class="bg-gray-800 rounded-lg shadow-lg w-full max-w-md p-6">
-                    <h2 class="text-2xl font-bold text-white mb-4">Edit Profile</h2>
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold text-white">Edit Profile</h2>
+                        <button onclick="toggleModal('editProfileModal')" class="text-gray-400 hover:text-white">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+
                     <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
+
+                        <!-- Profile Picture Upload -->
+                        <div class="mb-6 text-center">
+                            <div class="relative mx-auto w-32 h-32 rounded-full overflow-hidden bg-gray-700 mb-4">
+                                @if ($user->pfp)
+                                    <img id="profilePicturePreview" src="{{ $user->pfp }}" alt="Current Profile Picture"
+                                         class="w-full h-full object-cover">
+                                @else
+                                    <div id="profilePicturePreview" class="w-full h-full flex items-center justify-center text-gray-500">
+                                        <i class="fas fa-user text-5xl"></i>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <label for="pfp" class="cursor-pointer">
+                                <div class="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-all inline-flex items-center">
+                                    <i class="fas fa-camera mr-2"></i>
+                                    <span>Change Photo</span>
+                                    <input type="file" name="pfp" id="pfp" accept="image/*"
+                                           class="hidden" onchange="previewProfilePicture(event)">
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- Name Field -->
                         <div class="mb-4">
                             <label for="name" class="block text-gray-300 mb-2">Name</label>
                             <input type="text" name="name" id="name" value="{{ $user->name }}"
                                    class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500">
                         </div>
-                        <div class="mb-4">
-                            <label for="pfp" class="block text-gray-300 mb-2">Profile Picture</label>
-                            <input type="file" name="pfp" id="pfp"
-                                   class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500">
-                        </div>
-                        <div class="flex justify-end">
-                            <button type="button" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-all mr-2" onclick="toggleModal('editProfileModal')">Cancel</button>
-                            <button type="submit" class="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-all">Save</button>
+
+                        <div class="flex justify-end gap-2 pt-4">
+                            <button type="button"
+                                    class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-all"
+                                    onclick="toggleModal('editProfileModal')">
+                                Cancel
+                            </button>
+                            <button type="submit"
+                                    class="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-all">
+                                Save Changes
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -164,7 +199,7 @@
             </ul>
         </div>
 
-        
+
         <!-- Lists -->
         <div class="mb-8">
             <div class="flex items-center justify-between mb-4">
@@ -219,11 +254,11 @@
 
         <!-- Diary -->
         <div>
-            
+
             <h2 class="text-2xl font-bold text-white mb-4">My Diary</h2>
-            
+
             <ul class="space-y-4">
-                <!-- 
+                <!--
                 @foreach ($diaryEntries as $entry)
                     <li class="bg-gray-800 p-4 rounded-lg">
                         <h3 class="text-white font-bold">{{ $entry->title }}</h3>
@@ -252,8 +287,8 @@
                 @endforeach
             </ul>
 
-        
-        
+
+
         </div>
     </div>
 
@@ -266,9 +301,19 @@
         function previewProfilePicture(event) {
             const file = event.target.files[0];
             const preview = document.getElementById('profilePicturePreview');
+
             if (file) {
+                // If it's a div with icon, convert it to an img element
+                if (preview.tagName === 'DIV') {
+                    const img = document.createElement('img');
+                    img.id = 'profilePicturePreview';
+                    img.className = 'w-full h-full object-cover';
+                    preview.parentNode.replaceChild(img, preview);
+                    preview = img;
+                }
+
                 const reader = new FileReader();
-                reader.onload = function (e) {
+                reader.onload = function(e) {
                     preview.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
