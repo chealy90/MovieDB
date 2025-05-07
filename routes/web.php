@@ -66,6 +66,8 @@ Route::post('/removeFromWatchedList/{movie}', [UserController::class, 'setUnwatc
 //custom playlists
 Route::post('/createPlaylist', [PlaylistController::class, 'store'])->name('playlist.create');
 Route::post('/addToPlaylist', [PlaylistController::class, 'addToPlaylist'])->name('playlist.addMovie');
+Route::delete('/removeFromPlaylist/{playlistID}/{movieID}', [PlaylistController::class, 'removeFromPlaylist'])->name('playlist.removeMovie');
 
 Route::get('/playlist/{playlistID}', [PlaylistController::class, 'show'])->name('playlist.show');
+Route::delete('/playlist/delete/{id}', [PlaylistController::class, 'destroy'])->name('playlist.delete');
 
