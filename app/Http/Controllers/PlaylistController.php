@@ -67,4 +67,28 @@ class PlaylistController extends Controller
             'user' => $user
         ]);
     }
+
+    public function removeFromPlaylist($playlistID, $movieID, Request $request){
+        DB::table('playlist_movie')
+        ->where('playlistID', $playlistID)
+        ->where('movieID', $movieID)
+        ->delete();
+
+    return redirect()->back()->with('success', 'Movie removed from playlist.');
+    }
+
+    public function destroy($id, Request $request){
+        $playlist = Playlist::findOrFail($id);
+
+     // Ensure the logged-in user owns the playlist
+        if (auth()->id() !== $playlist->userID) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        DB::table('playlist_movie')->where('playlistID', $id)->delete();
+
+        $playlist->delete();
+
+        return redirect()->route('profile.private')->with('success', 'Playlist deleted successfully.');
+    }
 }
