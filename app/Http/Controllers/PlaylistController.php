@@ -52,7 +52,7 @@ class PlaylistController extends Controller
     public function show($playlistID){
         $playlist = Playlist::where('id', $playlistID)->first();
         $movies = DB::table('playlist_movie')
-            ->join('movies', 'playlist_movie.movieID', '=', 'movies.id')
+            ->join('movies', 'playlist_movie.movieID', '=', 'movies.tmdb_id')
             ->where('playlist_movie.playlistID', $playlistID)
             ->select('movies.*')  
             ->get();
