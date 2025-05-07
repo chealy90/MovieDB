@@ -16,6 +16,7 @@ class UserController extends Controller
         $moviesLiked = $user->moviesLiked()->count();
         $followers = $user->followers()->count();
         $following = $user->following()->count();
+        $watchedMovies = auth()->user()->watchedList;
 
         // Example: Retrieve recent activity
         $recentActivity = Review::where('userID', $user->id)
@@ -34,7 +35,7 @@ class UserController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('profile.private', compact('user', 'reviewsCount', 'moviesLiked', 'followers', 'following', 'recentActivity', 'lists', 'diaryEntries'));
+        return view('profile.private', compact('user', 'reviewsCount', 'moviesLiked', 'followers', 'following', 'recentActivity', 'lists', 'diaryEntries', 'watchedMovies'));
     }
 
     public function public(User $user)

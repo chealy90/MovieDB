@@ -76,7 +76,8 @@ class MovieController extends Controller
             $reviews = Review::join('users', 'reviews.userID', '=', 'users.id')
                 ->select('reviews.*', 'users.pfp as user_pfp', 'users.name as username')
                 ->where('movieID', $id)
-                ->take(4);
+                ->take(4)
+                ->get();
            
 
             $inWatchList = auth()->user()->watchlist->contains(function ($watchlistMovie) use ($movie) {

@@ -179,15 +179,41 @@
 
         <!-- Diary -->
         <div>
+            
             <h2 class="text-2xl font-bold text-white mb-4">My Diary</h2>
+            
             <ul class="space-y-4">
+                <!-- 
                 @foreach ($diaryEntries as $entry)
                     <li class="bg-gray-800 p-4 rounded-lg">
                         <h3 class="text-white font-bold">{{ $entry->title }}</h3>
                         <p class="text-gray-400">{{ $entry->content }}</p>
                     </li>
                 @endforeach
+                -->
+
+                @foreach ($watchedMovies as $watched)
+                    @if ($watched && is_object($watched))
+                        <li class="bg-gray-800 p-4 rounded-lg flex items-center gap-4">
+                            <div class="w-16 h-24 rounded overflow-hidden bg-gray-700">
+                                @if (!empty($watched->poster_path))
+                                    <img src="https://image.tmdb.org/t/p/w200{{ $watched->poster_path }}" alt="{{ $watched->title }}" class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center text-gray-500">
+                                        <i class="fas fa-film text-xl"></i>
+                                    </div>
+                                @endif
+                            </div>
+                            <div>
+                                <h3 class="text-white font-bold">{{ \Carbon\Carbon::parse($watched->watched_at)->format('jS F Y') }} - watched {{ $watched->title }}</h3>
+                            </div>
+                        </li>
+                    @endif
+                @endforeach
             </ul>
+
+        
+        
         </div>
     </div>
 
