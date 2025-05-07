@@ -154,6 +154,8 @@
         <i class="fas fa-user mr-3 text-cyan-500"></i> My Profile
     </a>
     <a href={{ Auth::check() ?  "/watchlist/" . auth()->user()->id : "/login" }}" class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">
+       class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">
+
         <i class="fas fa-bookmark mr-3 text-purple-400"></i> Watchlist
     </a>
     <a href="#" class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Movie;
 use App\Models\Review;
 use App\Models\User;
 use App\Models\Playlist;
@@ -112,14 +113,14 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'You have unfollowed ' . $user->name . '.');
     }
-  
+
 
     //watch list functions
     public function addToWatchlist($movieId)
     {
         // Ensure you're attaching the movie by its primary key (id)
         $movie = Movie::where('tmdb_id', $movieId)->first();
-    
+
         if ($movie) {
             auth()->user()->watchlist()->attach($movie->id); // Attach using movie->id
         } else {
@@ -155,7 +156,7 @@ class UserController extends Controller
     public function setWatched($movieId){
         // Ensure you're attaching the movie by its primary key (id)
         $movie = Movie::where('tmdb_id', $movieId)->first();
-            
+
         if ($movie) {
             auth()->user()->watchedList()->attach($movie->id); // Attach using movie->id
         } else {
