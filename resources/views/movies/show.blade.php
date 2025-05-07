@@ -42,9 +42,8 @@
                                 class="watched-btn-mobile flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white">
                                 <i class="fas fa-check"></i>
                             </button>
-                            <button
-                                class="like-btn-mobile flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-500 to-yellow-500 text-white">
-                                <i class="fas fa-heart"></i>
+                            <button onclick="toggleModal('addToPlaylistModal')" class="text-white bg-cyan-500 hover:bg-cyan-600 rounded-full p-2">
+                                <i class="fas fa-plus"></i>
                             </button>
                         </div>
                     </div>
@@ -79,7 +78,7 @@
 
                                 $action2 = $userId
                                     ? route('watchlist.remove', ['movie' => $movie['id'], 'user' => $userId])
-                                    : route('login.index')
+                                    : route('login.index');
                             @endphp
                             <form action="{{ $action1 }}" method="POST" x-ref="watchlistAddForm">@csrf</form>
                             <form action="{{ $action2 }}" method="POST" x-ref="watchlistRemoveForm">@csrf</form>
