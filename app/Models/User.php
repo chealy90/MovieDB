@@ -88,6 +88,7 @@ class User extends Authenticatable
     public function logs()
     {
         return $this->hasMany(Logs::class, 'user_id', 'id');
+    }
 
     public function watchlist() {
         return $this->belongsToMany(Movie::class, 'watchlist_movie')

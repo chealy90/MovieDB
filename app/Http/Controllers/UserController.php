@@ -110,6 +110,8 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'You have unfollowed ' . $user->name . '.');
     }
   
+
+    //watch list functions
     public function addToWatchlist($movieId)
     {
         // Ensure you're attaching the movie by its primary key (id)
@@ -138,6 +140,14 @@ class UserController extends Controller
 
         return redirect("/movies/{$movie->tmdb_id}");
     }
+
+    public function displayWatchlist(){
+        $watchlistMovies = auth()->user()->watchlist()->get();
+        return view('movies.watchlist', ['watchlistMovies'=>$watchlistMovies]);
+    }
+
+
+
 
     public function setWatched($movieId){
         // Ensure you're attaching the movie by its primary key (id)
