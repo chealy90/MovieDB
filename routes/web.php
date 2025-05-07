@@ -39,7 +39,12 @@ Route::get('/movieReviews/{id}', [ReviewController::class, 'findByMovie'])->name
 
 
 //user playlist routes
+//watchlist
 Route::post('/addToWatchlist/{movie}/{user}', [UserController::class, 'addToWatchlist'])->name('watchlist.add');
 Route::post('/addFromWatchlist/{movie}/{user}', [UserController::class, 'removeFromWatchlist'])->name('watchlist.remove');
+
+//watched list
+Route::post('/addToWatchedList/{movie}', [UserController::class, 'setWatched'])->name('watched.add');
+Route::post('/removeFromWatchedList/{movie}', [UserController::class, 'setUnwatched'])->name('watched.remove');
 
 

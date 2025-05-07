@@ -69,4 +69,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Movie::class, 'watchlist_movie')
             ->withTimestamps();
     }
+
+
+    public function watchedList(){
+        return $this->belongsToMany(Movie::class, 'watched_movie')
+            ->withTimestamps();
+    }
 }

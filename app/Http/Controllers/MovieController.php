@@ -78,13 +78,18 @@ class MovieController extends Controller
                 return $watchlistMovie->pivot->movie_id == $movie['id'];
             });
 
+            $isWatched = auth()->user()->watchedlist->contains(function ($watchedListMovie) use ($movie) {
+                return $watchedListMovie->pivot->movie_id == $movie['id'];
+            });
+
             return view('movies.show', [
                 'movie' => $movieDetails,
                 
                 'similarMovies' => $similarMovies,
                 'reviews' => $reviews,
                 'dbMovie' => $movie,
-                'inWatchlist' => $inWatchList 
+                'inWatchlist' => $inWatchList,
+                'isWatched' => $isWatched
             ]);
 
 

@@ -89,9 +89,26 @@
                                 </button>
 
 
-                                <button class="watched-btn flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:opacity-90 transition-opacity">
+                                <!-- watched button -->
+                                <form action="{{ route('watched.add', ['movie'=>$movie['id']]) }}" method="POST" x-ref="watchedAddForm">@csrf</form>
+                                <form action="{{ route('watched.remove', ['movie'=>$movie['id']]) }}" method="POST" x-ref="watchedRemoveForm">@csrf</form>
+
+                                <button 
+                                    @if ($isWatched)
+                                        @click="$refs.watchedRemoveForm.submit()"
+                                    @else 
+                                        @click="$refs.watchedAddForm.submit()"
+                                    @endif
+                                    class="watched-btn flex items-center justify-center w-10 h-10 rounded-full transition-opacity
+                                        {{ $isWatched ? 'bg-green-500 opacity-70' : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90 text-white' }}"
+                                    
+                                >
                                     <i class="fas fa-check"></i>
                                 </button>
+
+
+
+
                                 <button class="like-btn flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-500 to-yellow-500 text-white hover:opacity-90 transition-opacity">
                                     <i class="fas fa-heart"></i>
                                 </button>
