@@ -6,7 +6,6 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
-use App\Http\Controllers\UserController;
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Movie;
@@ -57,6 +56,7 @@ Route::get('/movieReviews/{id}', [ReviewController::class, 'findByMovie'])->name
 //watchlist
 Route::post('/addToWatchlist/{movie}/{user}', [UserController::class, 'addToWatchlist'])->name('watchlist.add');
 Route::post('/addFromWatchlist/{movie}/{user}', [UserController::class, 'removeFromWatchlist'])->name('watchlist.remove');
+Route::get('/watchlist/{user}', [UserController::class, 'displayWatchlist'])->name('watchlist.display');
 
 //watched list
 Route::post('/addToWatchedList/{movie}', [UserController::class, 'setWatched'])->name('watched.add');
