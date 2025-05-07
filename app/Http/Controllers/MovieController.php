@@ -78,7 +78,7 @@ class MovieController extends Controller
                 ->where('movieID', $id)
                 ->take(4)
                 ->get();
-           
+
 
             $inWatchList = auth()->user()->watchlist->contains(function ($watchlistMovie) use ($movie) {
                 return $watchlistMovie->pivot->movie_id == $movie['id'];
@@ -91,7 +91,7 @@ class MovieController extends Controller
 
             return view('movies.show', [
                 'movie' => $movieDetails,
-                
+
                 'similarMovies' => $similarMovies,
                 'reviews' => $reviews,
                 'dbMovie' => $movie,
