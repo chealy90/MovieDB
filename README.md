@@ -44,6 +44,11 @@ Logged in users have the option to:
 - Mark it as watched,
 - Add it to their own custom playlists
 
+## Profile Page
+From the profile page users can update their info, view their watchlist, movies they've watched, and manage their playlists.
+The profile page also gives users the chance to see review history.
+
+
 
 
 
