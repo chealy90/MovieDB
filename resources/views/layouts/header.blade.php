@@ -153,7 +153,8 @@
     <a href="{{ route('profile.private') }}" class="block px-5 py-3 text-gray-800 hover:bg-gray-100 transition-colors duration-300 flex items-center">
         <i class="fas fa-user mr-3 text-cyan-500"></i> My Profile
     </a>
-    <a href="/watchlist/{{ auth()->user()->id }}" class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">
+    <a href="/watchlist/{{ auth()->check() ? auth()->user()->id : '' }}"
+       class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">
         <i class="fas fa-bookmark mr-3 text-purple-400"></i> Watchlist
     </a>
     <a href="#" class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">
