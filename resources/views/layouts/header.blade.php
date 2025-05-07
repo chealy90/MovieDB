@@ -25,7 +25,7 @@
 
             <!-- Search Bar -->
             <div class="relative ml-6">
-                <form action="{{ route('movies.search') }}" method="GET" id="search-form-desktop">
+                <form action="{{ secure_url(route('movies.search')) }}" method="GET" id="search-form-desktop">
                     <input type="text"
                            name="query"
                            id="search-input-desktop"
