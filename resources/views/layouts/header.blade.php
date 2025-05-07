@@ -43,22 +43,23 @@
                 <div class="relative ml-6">
                     <button @click="userMenuOpen = !userMenuOpen" class="flex items-center space-x-3 focus:outline-none">
                         <span class="text-white font-medium">{{ Auth::user()->name }}</span>
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-white user-avatar">
-                            <i class="fas fa-user text-lg"></i>
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-white user-avatar overflow-hidden">
+                            @if (Auth::user()->pfp)
+                                <img src="{{ Auth::user()->pfp }}" alt="{{ Auth::user()->name }}" class="w-full h-full object-cover">
+                            @else
+                                <i class="fas fa-user text-lg"></i>
+                            @endif
                         </div>
                     </button>
 
                     <!-- Dropdown Menu -->
                     <div x-show="userMenuOpen" @click.away="userMenuOpen = false" x-cloak
                          class="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-2xl py-2 z-50 overflow-hidden">
-                        <a href="#" class="block px-5 py-3 text-gray-800 hover:bg-gray-100 transition-colors duration-300 flex items-center">
+                        <a href="{{ route('profile.private') }}" class="block px-5 py-3 text-gray-800 hover:bg-gray-100 transition-colors duration-300 flex items-center">
                             <i class="fas fa-user mr-3 text-cyan-500"></i> My Profile
                         </a>
                         <a href="#" class="block px-5 py-3 text-gray-800 hover:bg-gray-100 transition-colors duration-300 flex items-center">
                             <i class="fas fa-bookmark mr-3 text-purple-500"></i> Watchlist
-                        </a>
-                        <a href="#" class="block px-5 py-3 text-gray-800 hover:bg-gray-100 transition-colors duration-300 flex items-center">
-                            <i class="fas fa-cog mr-3 text-gray-500"></i> Settings
                         </a>
                         <div class="border-t border-gray-200 my-1"></div>
                         <a href="#"
@@ -149,8 +150,8 @@
 <!-- Mobile User Menu -->
 <div x-show="userMenuOpen && mobileMenuOpen" x-cloak
      class="lg:hidden bg-gray-800 px-6 py-3 transition-all duration-500 ease-in-out">
-    <a href="#" class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">
-        <i class="fas fa-user mr-3 text-cyan-400"></i> My Profile
+    <a href="{{ route('profile.private') }}" class="block px-5 py-3 text-gray-800 hover:bg-gray-100 transition-colors duration-300 flex items-center">
+        <i class="fas fa-user mr-3 text-cyan-500"></i> My Profile
     </a>
     <a href="#" class="block py-3 text-white hover:text-movie-accent transition-colors duration-300 border-b border-gray-700 flex items-center">
         <i class="fas fa-bookmark mr-3 text-purple-400"></i> Watchlist

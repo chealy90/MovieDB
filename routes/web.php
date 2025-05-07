@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\UserController;
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Movie;
@@ -33,8 +35,21 @@ Route::get('/register', [RegistrationController::class, 'create'])->name('regist
 Route::post('/register', [RegistrationController::class, 'store'])->name('register.store');
 
 
+//profile
+Route::get('/profile', [UserController::class, 'private'])->name('profile.private')->middleware('auth');
+Route::get('/profile/{user}', [UserController::class, 'public'])->name('profile.public');
+Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update'); // update profile
+Route::post('/profile/{user}/follow', [UserController::class, 'follow'])->name('profile.follow')->middleware('auth'); // follow user
+Route::post('/profile/{user}/unfollow', [UserController::class, 'unfollow'])->name('profile.unfollow')->middleware('auth'); // unfollow user
+
+
 //review
 Route::post('/postReview/{movie}/{user}', [ReviewController::class, 'create'])->name('postReview');
+
+
+
+// personas (actors/directors)
+Route::get('/person/{id}', [PersonController::class, 'show'])->name('person.show');
 Route::get('/movieReviews/{id}', [ReviewController::class, 'findByMovie'])->name('movieReviews');
 
 

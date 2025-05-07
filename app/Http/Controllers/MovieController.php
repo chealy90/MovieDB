@@ -72,7 +72,12 @@ class MovieController extends Controller
             );
 
             $similarMovies = $this->tmdbService->getSimilarMovies($id);
-            $reviews = Review::where('movieID', $id)->orderBy('created_at', 'asc')->take(4)->get();
+
+            $reviews = Review::join('users', 'reviews.userID', '=', 'users.id')
+                ->select('reviews.*', 'users.pfp as user_pfp', 'users.name as username')
+                ->where('movieID', $id)
+                ->take(4);
+           
 
             $inWatchList = auth()->user()->watchlist->contains(function ($watchlistMovie) use ($movie) {
                 return $watchlistMovie->pivot->movie_id == $movie['id'];
@@ -81,6 +86,7 @@ class MovieController extends Controller
             $isWatched = auth()->user()->watchedlist->contains(function ($watchedListMovie) use ($movie) {
                 return $watchedListMovie->pivot->movie_id == $movie['id'];
             });
+
 
             return view('movies.show', [
                 'movie' => $movieDetails,

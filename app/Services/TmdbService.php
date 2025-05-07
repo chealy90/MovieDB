@@ -84,4 +84,15 @@ class TmdbService
             throw new \Exception("TMDB API connection failed: " . $e->getMessage());
         }
     }
+
+
+    public function getPersonDetails($id)
+    {
+        return $this->makeRequest("/person/{$id}");
+    }
+
+    public function getPersonMovies($id)
+    {
+        return $this->makeRequest("/person/{$id}/movie_credits")['cast'] ?? [];
+    }
 }
