@@ -108,7 +108,8 @@ class MovieController extends Controller
             // Pass the local DB record too
 
         } catch (\Exception $e) {
-            return redirect()->route('movies.index')
+            echo "not found";
+            return redirect()->route('movies.index')              
                 ->with('error', 'Movie not found: ' . $e->getMessage());
         }
     }

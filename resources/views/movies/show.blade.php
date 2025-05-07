@@ -122,6 +122,7 @@
 
 
                         <!-- Add to Playlist Modal -->
+                        
                         <div id="addToPlaylistModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
                             <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
                                 <h2 class="text-2xl font-bold text-white mb-4">Add to Playlist</h2>
