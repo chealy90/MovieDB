@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Movie;
 use App\Models\Review;
 use App\Services\TmdbService;
+use App\Models\Playlist;
 use Illuminate\Http\Request;
 
 class MovieController extends Controller
@@ -88,6 +89,9 @@ class MovieController extends Controller
                 return $watchedListMovie->pivot->movie_id == $movie['id'];
             });
 
+            $playlists = $playlists = Playlist::where('userID', auth()->id())->get();
+
+
 
             return view('movies.show', [
                 'movie' => $movieDetails,
@@ -96,7 +100,8 @@ class MovieController extends Controller
                 'reviews' => $reviews,
                 'dbMovie' => $movie,
                 'inWatchlist' => $inWatchList,
-                'isWatched' => $isWatched
+                'isWatched' => $isWatched,
+                'playlists' => $playlists
             ]);
 
 

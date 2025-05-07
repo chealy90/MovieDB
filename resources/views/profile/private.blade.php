@@ -164,18 +164,58 @@
             </ul>
         </div>
 
+        
         <!-- Lists -->
         <div class="mb-8">
-            <h2 class="text-2xl font-bold text-white mb-4">My Lists</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach ($lists as $list)
-                    <div class="bg-gray-800 p-4 rounded-lg">
-                        <h3 class="text-white font-bold">{{ $list->name }}</h3>
-                        <p class="text-gray-400">{{ $list->description }}</p>
-                    </div>
-                @endforeach
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-bold text-white mb-4">My Playlists</h2>
+                <button
+                    onclick="toggleModal('createPlaylistModal')"
+                    class="px-4 py-2 bg-cyan-500 text-white rounded-full hover:bg-cyan-600 transition-all">
+                    + Create Playlist
+                </button>
+            </div>
+            <!-- playlists -->
+            <!-- User's Playlists -->
+            <div class="mb-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @forelse ($playlists as $playlist)
+                        <a href="{{ route('playlist.show', [$playlist['id']]) }}" class="block bg-gray-800 p-4 rounded-lg hover:bg-gray-700 transition-colors duration-200">
+                            <h3 class="text-white font-bold text-lg">{{ $playlist->playlist_name }}</h3>
+                            <p class="text-gray-400 text-sm mt-1">{{ $playlist->description }}</p>
+                        </a>
+                    @empty
+                        <p class="text-gray-400">You haven't created any playlists yet.</p>
+                    @endforelse
+                </div>
             </div>
         </div>
+
+        <!-- Create Playlist Modal -->
+        <div id="createPlaylistModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+            <div class="bg-gray-800 rounded-lg shadow-lg w-full max-w-md p-6">
+                <h2 class="text-2xl font-bold text-white mb-4">Create New Playlist</h2>
+                <form action="{{ route('playlist.create') }}" method="POST">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="playlist_name" class="block text-gray-300 mb-2">Name</label>
+                        <input type="text" name="playlist_name" id="name" required
+                            class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                    </div>
+                    <div class="mb-4">
+                        <label for="description" class="block text-gray-300 mb-2">Description</label>
+                        <textarea name="description" id="description" rows="3"
+                                class="w-full bg-gray-700 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"></textarea>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="button" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-all mr-2" onclick="toggleModal('createPlaylistModal')">Cancel</button>
+                        <button type="submit" class="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-all">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
 
         <!-- Diary -->
         <div>
