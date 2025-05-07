@@ -109,4 +109,60 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'You have unfollowed ' . $user->name . '.');
     }
+  
+    public function addToWatchlist($movieId)
+    {
+        // Ensure you're attaching the movie by its primary key (id)
+        $movie = Movie::where('tmdb_id', $movieId)->first();
+    
+        if ($movie) {
+            auth()->user()->watchlist()->attach($movie->id); // Attach using movie->id
+        } else {
+            // Handle movie not found case
+            return response()->json(['error' => 'Movie not found'], 404);
+        }
+
+        return redirect("/movies/{$movie->tmdb_id}");
+    }
+
+    public function removeFromWatchlist($movieId)
+    {
+        $movie = Movie::where('tmdb_id', $movieId)->first();
+
+        if ($movie) {
+            auth()->user()->watchlist()->detach($movie->id); // Detach using movie->id
+        } else {
+            // Handle movie not found case
+            return response()->json(['error' => 'Movie not found'], 404);
+        }
+
+        return redirect("/movies/{$movie->tmdb_id}");
+    }
+
+    public function setWatched($movieId){
+        // Ensure you're attaching the movie by its primary key (id)
+        $movie = Movie::where('tmdb_id', $movieId)->first();
+            
+        if ($movie) {
+            auth()->user()->watchedList()->attach($movie->id); // Attach using movie->id
+        } else {
+            // Handle movie not found case
+            return response()->json(['error' => 'Movie not found'], 404);
+        }
+
+        return redirect("/movies/{$movie->tmdb_id}");
+    }
+
+    public function setUnwatched($movieId){
+        $movie = Movie::where('tmdb_id', $movieId)->first();
+
+        if ($movie) {
+            auth()->user()->watchedList()->detach($movie->id); // Detach using movie->id
+        } else {
+            // Handle movie not found case
+            return response()->json(['error' => 'Movie not found'], 404);
+        }
+
+        return redirect("/movies/{$movie->tmdb_id}");
+    }
 }

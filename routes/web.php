@@ -3,6 +3,7 @@
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\UserController;
@@ -46,5 +47,19 @@ Route::post('/profile/{user}/unfollow', [UserController::class, 'unfollow'])->na
 Route::post('/postReview/{movie}/{user}', [ReviewController::class, 'create'])->name('postReview');
 
 
+
 // personas (actors/directors)
 Route::get('/person/{id}', [PersonController::class, 'show'])->name('person.show');
+Route::get('/movieReviews/{id}', [ReviewController::class, 'findByMovie'])->name('movieReviews');
+
+
+//user playlist routes
+//watchlist
+Route::post('/addToWatchlist/{movie}/{user}', [UserController::class, 'addToWatchlist'])->name('watchlist.add');
+Route::post('/addFromWatchlist/{movie}/{user}', [UserController::class, 'removeFromWatchlist'])->name('watchlist.remove');
+
+//watched list
+Route::post('/addToWatchedList/{movie}', [UserController::class, 'setWatched'])->name('watched.add');
+Route::post('/removeFromWatchedList/{movie}', [UserController::class, 'setUnwatched'])->name('watched.remove');
+
+

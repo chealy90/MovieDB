@@ -72,17 +72,34 @@ class MovieController extends Controller
             );
 
             $similarMovies = $this->tmdbService->getSimilarMovies($id);
+
             $reviews = Review::join('users', 'reviews.userID', '=', 'users.id')
                 ->select('reviews.*', 'users.pfp as user_pfp', 'users.name as username')
                 ->where('movieID', $id)
-                ->get();
+                ->take(4);
+           
+
+            $inWatchList = auth()->user()->watchlist->contains(function ($watchlistMovie) use ($movie) {
+                return $watchlistMovie->pivot->movie_id == $movie['id'];
+            });
+
+            $isWatched = auth()->user()->watchedlist->contains(function ($watchedListMovie) use ($movie) {
+                return $watchedListMovie->pivot->movie_id == $movie['id'];
+            });
+
 
             return view('movies.show', [
                 'movie' => $movieDetails,
+                
                 'similarMovies' => $similarMovies,
                 'reviews' => $reviews,
-                'dbMovie' => $movie // Pass the local DB record too
+                'dbMovie' => $movie,
+                'inWatchlist' => $inWatchList,
+                'isWatched' => $isWatched
             ]);
+
+
+            // Pass the local DB record too
 
         } catch (\Exception $e) {
             return redirect()->route('movies.index')
@@ -151,6 +168,7 @@ class MovieController extends Controller
             ]);
         }
     }
+
 
     protected function storeSearchResults(array $movies)
     {
