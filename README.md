@@ -8,8 +8,11 @@
 
 This project is a movie database application that allows users to explore popular movies, manage watchlists, create playlists, and interact with other users through reviews and profiles.
 
-## ✨ Features
+![1](https://github.com/user-attachments/assets/064b63e3-7aff-4d76-831a-141b699e9930)
 
+![2](https://github.com/user-attachments/assets/56c8859a-6387-48c8-a3a7-4de18de95a9a)
+
+## ✨ Features
 ### 1. **🎥 Movie Browsing**
 - Browse popular movies, top-rated, now playing, and upcoming movies.
 - Filter movies by genre, release year, and sort by rating or release date.
